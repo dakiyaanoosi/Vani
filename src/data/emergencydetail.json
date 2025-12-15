@@ -1,0 +1,146 @@
+{
+  "bleeding": {
+    "title": "Severe Bleeding",
+    "audio": "bleeding_hi.mp3",
+    "steps": [
+      "Person ko baithaayein ya litaayein",
+      "Saaf kapde se zor se dabav banayein",
+      "Zakhm ke upar haath na uthayein",
+      "Khoon behna kam hone tak dabav rakhein"
+    ],
+    "redFlags": [
+      "Khoon ruk nahi raha",
+      "Person behosh ho raha hai"
+    ],
+    "doNot": [
+      "Zakhm ko na dhoyein",
+      "Bahut tight band na lagayein"
+    ]
+  },
+
+  "burns": {
+    "title": "Burns",
+    "audio": "burns_hi.mp3",
+    "steps": [
+      "Jali hui jagah ko thande paani ke neeche rakhein",
+      "10–15 minute tak thanda karein",
+      "Saaf kapde se dheere se dhakein"
+    ],
+    "redFlags": [
+      "Skin jal kar kaali ho rahi hai",
+      "Bahut zyada dard"
+    ],
+    "doNot": [
+      "Ice directly na lagayein",
+      "Tel ya toothpaste na lagayein"
+    ]
+  },
+
+  "choking": {
+    "title": "Choking",
+    "audio": "choking_hi.mp3",
+    "steps": [
+      "Person ko aage jhukaayein",
+      "Peeche se 5 back blows dein",
+      "Agar zarurat ho to 5 abdominal thrusts karein (Heimlich maneuver)"
+    ],
+    "redFlags": [
+      "Person bol nahi pa raha",
+      "Person behosh ho gaya"
+    ],
+    "doNot": [
+      "Haath ya objects ko zakhm ke andar na daalein",
+      "Person ko thappad na marein"
+    ]
+  },
+
+  "fracture": {
+    "title": "Fracture",
+    "audio": "fracture_hi.mp3",
+    "steps": [
+      "Affected limb ko move na karein",
+      "Saaf kapde ya splint se immobilize karein",
+      "Person ko aram se bithaayein ya litaayein"
+    ],
+    "redFlags": [
+      "Haddi skin se bahar aa rahi hai",
+      "Severe pain aur swelling"
+    ],
+    "doNot": [
+      "Haddi ko forcibly set na karein",
+      "Zakhm par direct pressure na dalein"
+    ]
+  },
+
+  "snake_bite": {
+    "title": "Snake Bite",
+    "audio": "snake_bite_hi.mp3",
+    "steps": [
+      "Person ko calm aur still rakhein",
+      "Affected area ko dil se neeche rakhein",
+      "Zakhm ke upar tight band na lagayein"
+    ],
+    "redFlags": [
+      "Severe swelling aur redness",
+      "Dard aur vomiting"
+    ],
+    "doNot": [
+      "Zakhm ko kaatne ki koshish na karein",
+      "Ice ya alcohol na lagayein"
+    ]
+  },
+
+  "electric_shock": {
+    "title": "Electric Shock",
+    "audio": "electric_shock_hi.mp3",
+    "steps": [
+      "Power source ko turant band karein",
+      "Person ko touch karne se pehle ensure karein ki current band ho",
+      "Person ko flat surface par litaayein aur breathing check karein"
+    ],
+    "redFlags": [
+      "Person unconscious hai",
+      "Severe burns ya breathing issue"
+    ],
+    "doNot": [
+      "Person ko current ke saath touch na karein",
+      "Paani me litaane ki koshish na karein"
+    ]
+  },
+
+  "heat_stroke": {
+    "title": "Heat Stroke",
+    "audio": "heat_stroke_hi.mp3",
+    "steps": [
+      "Person ko shady aur thandi jagah par le jaayein",
+      "Kapdon ko dheere se loose karein",
+      "Thande paani ya wet cloth se body ko cool karein"
+    ],
+    "redFlags": [
+      "High body temperature",
+      "Confusion ya unconsciousness"
+    ],
+    "doNot": [
+      "Person ko zyada water force na karein",
+      "Ice packs directly skin par na lagayein"
+    ]
+  },
+
+  "unconscious": {
+    "title": "Unconsciousness",
+    "audio": "unconscious_hi.mp3",
+    "steps": [
+      "Person ko safe position me litaayein (recovery position)",
+      "Breathing aur pulse check karein",
+      "Agar na saans le raha ho to CPR shuru karein"
+    ],
+    "redFlags": [
+      "Breathing ruk gayi hai",
+      "No pulse"
+    ],
+    "doNot": [
+      "Person ko shake na karein",
+      "Khane ya paani dene ki koshish na karein"
+    ]
+  }
+}
