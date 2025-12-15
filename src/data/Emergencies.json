@@ -1,0 +1,42 @@
+[
+  {
+    "id": "bleeding",
+    "title": "Severe Bleeding",
+    "icon": "🩸"
+  },
+  {
+    "id": "burns",
+    "title": "Burns",
+    "icon": "🔥"
+  },
+  {
+    "id": "choking",
+    "title": "Choking",
+    "icon": "🫁"
+  },
+  {
+    "id": "fracture",
+    "title": "Fracture",
+    "icon": "🦴"
+  },
+  {
+    "id": "snake_bite",
+    "title": "Snake Bite",
+    "icon": "🐍"
+  },
+  {
+    "id": "electric_shock",
+    "title": "Electric Shock",
+    "icon": "⚡"
+  },
+  {
+    "id": "heat_stroke",
+    "title": "Heat Stroke",
+    "icon": "🌡"
+  },
+  {
+    "id": "unconscious",
+    "title": "Unconsciousness",
+    "icon": "😵"
+  }
+]
