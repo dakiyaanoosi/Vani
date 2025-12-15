@@ -1,14 +1,19 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import emergencydetail from '../data/emergencydetail.json';
+import { View, Text, Linking, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import emergencydetaileng from '../data/emergencydetaileng.json';
+import NetworkStatus from '../hooks/NetworkStatus';
+
+
 
 export default function EmergencyDetailScreen({ route }) {
+  const isOnline = NetworkStatus();
   const { emergencyId } = route.params;
-  const data = emergencydetail[emergencyId];
+  const data = emergencydetaileng[emergencyId];
 
-  if (!data) {
+  if (!data) {         /* handles case when data is missing or json file is corrupted (exceptional) */
+
     return (
       <View style={styles.container}>
-        <Text>Emergency data not found</Text>
+        <Text>Emergency data unavailable. Please seek immediate help.</Text>
       </View>
     );
   }
@@ -17,17 +22,13 @@ export default function EmergencyDetailScreen({ route }) {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
 
-        {/* TITLE */}
         <Text style={styles.title}>{data.title}</Text>
-
-        {/* AUDIO (STUB) */}
         <View style={styles.audioBox}>
           <Text style={styles.audioText}>
             🔊 Audio guidance playing (offline)
           </Text>
         </View>
 
-        {/* STEPS */}
         <Text style={styles.sectionTitle}>What to do now</Text>
         {data.steps.map((step, index) => (
           <Text key={index} style={styles.step}>
@@ -35,7 +36,6 @@ export default function EmergencyDetailScreen({ route }) {
           </Text>
         ))}
 
-        {/* RED FLAGS */}
         <Text style={[styles.sectionTitle, { color: '#B71C1C' }]}>
           Red Flags
         </Text>
@@ -45,7 +45,6 @@ export default function EmergencyDetailScreen({ route }) {
           </Text>
         ))}
 
-        {/* DO NOT */}
         <Text style={styles.sectionTitle}>Do NOT</Text>
         {data.doNot.map((item, index) => (
           <Text key={index} style={styles.doNot}>
@@ -55,10 +54,24 @@ export default function EmergencyDetailScreen({ route }) {
 
       </ScrollView>
 
-      {/* ACTION BAR */}
       <View style={styles.actionBar}>
-        <Text style={styles.action}>📞 Call 108</Text>
-        <Text style={styles.action}>🏥 Find Hospital</Text>
+
+        <TouchableOpacity onPress={() => Linking.openURL('tel:108')}
+          accessibilityLabel="Call ambulance number 108" /* accessibility for screen readers */
+          accessibilityRole="button"
+          >
+          <Text style={styles.action}>📞 Call 108</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          if (isOnline) {
+            Linking.openURL('https://www.google.com/maps/search/hospitals+near+me');
+          } else {
+            alert('Offline numbers:\n108 – Ambulance\n112 – Emergency');
+          }
+        }}>
+          <Text style={styles.action}>🏥 Find Hospital</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );

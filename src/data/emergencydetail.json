@@ -1,7 +1,7 @@
 {
   "bleeding": {
     "title": "Severe Bleeding",
-    "audio": "bleeding_hi.mp3",
+    "audio": "bleeding_hi.mp3", "_comment":"Will manage and add audio later",
     "steps": [
       "Person ko baithaayein ya litaayein",
       "Saaf kapde se zor se dabav banayein",
@@ -20,7 +20,7 @@
 
   "burns": {
     "title": "Burns",
-    "audio": "burns_hi.mp3",
+    "audio": "burns_hi.mp3", "_comment":"Will manage and add audio later",
     "steps": [
       "Jali hui jagah ko thande paani ke neeche rakhein",
       "10–15 minute tak thanda karein",

@@ -1,10 +1,14 @@
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Vibration, Text, StyleSheet } from 'react-native';
 import React from 'react';
 
 export default function HelpButton({ onPress }) {
   return (
-    
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+
+    <TouchableOpacity style={styles.button} onPress={onPress}
+      accessibilityLabel="Emergency help button"  /*accessibility*/
+      accessibilityHint="Opens emergency categories"
+      accessibilityRole="button"
+      >
       <Text style={styles.text}>HELP</Text>
     </TouchableOpacity>
   );

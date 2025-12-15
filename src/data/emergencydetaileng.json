@@ -1,0 +1,146 @@
+{
+  "bleeding": {
+    "title": "Severe Bleeding",
+    "audio": "bleeding_en.mp3", "_comment":"Will manage and add audio later",
+    "steps": [
+      "Make the person sit or lie down",
+      "Apply firm pressure using a clean cloth",
+      "Do not remove your hand from the wound",
+      "Maintain pressure until bleeding slows"
+    ],
+    "redFlags": [
+      "Bleeding does not stop",
+      "Person is losing consciousness"
+    ],
+    "doNot": [
+      "Do not wash the wound",
+      "Do not tie the bandage too tightly"
+    ]
+  },
+
+  "burns": {
+    "title": "Burns",
+    "audio": "burns_en.mp3", "_comment":"Will manage and add audio later",
+    "steps": [
+      "Place the burned area under cool running water",
+      "Cool for 10–15 minutes",
+      "Cover gently with a clean cloth"
+    ],
+    "redFlags": [
+      "Skin turns black or charred",
+      "Severe pain"
+    ],
+    "doNot": [
+      "Do not apply ice directly",
+      "Do not apply oil or toothpaste"
+    ]
+  },
+
+  "choking": {
+    "title": "Choking",
+    "audio": "choking_en.mp3",
+    "steps": [
+      "Lean the person forward",
+      "Give 5 back blows",
+      "If needed, perform 5 abdominal thrusts (Heimlich maneuver)"
+    ],
+    "redFlags": [
+      "Person cannot speak",
+      "Person becomes unconscious"
+    ],
+    "doNot": [
+      "Do not insert fingers or objects into the mouth",
+      "Do not slap the person"
+    ]
+  },
+
+  "fracture": {
+    "title": "Fracture",
+    "audio": "fracture_en.mp3",
+    "steps": [
+      "Do not move the injured limb",
+      "Immobilize using a splint or clean cloth",
+      "Let the person sit or lie comfortably"
+    ],
+    "redFlags": [
+      "Bone is visible through the skin",
+      "Severe pain and swelling"
+    ],
+    "doNot": [
+      "Do not try to realign the bone",
+      "Do not apply pressure directly on the fracture"
+    ]
+  },
+
+  "snake_bite": {
+    "title": "Snake Bite",
+    "audio": "snake_bite_en.mp3",
+    "steps": [
+      "Keep the person calm and still",
+      "Keep the affected area below heart level",
+      "Do not apply a tight band"
+    ],
+    "redFlags": [
+      "Severe swelling and redness",
+      "Pain and vomiting"
+    ],
+    "doNot": [
+      "Do not cut the wound",
+      "Do not apply ice or alcohol"
+    ]
+  },
+
+  "electric_shock": {
+    "title": "Electric Shock",
+    "audio": "electric_shock_en.mp3",
+    "steps": [
+      "Turn off the power source immediately",
+      "Ensure power is off before touching the person",
+      "Lay the person flat and check breathing"
+    ],
+    "redFlags": [
+      "Person is unconscious",
+      "Severe burns or breathing difficulty"
+    ],
+    "doNot": [
+      "Do not touch the person while current is on",
+      "Do not place the person in water"
+    ]
+  },
+
+  "heat_stroke": {
+    "title": "Heat Stroke",
+    "audio": "heat_stroke_en.mp3",
+    "steps": [
+      "Move the person to a shaded, cool place",
+      "Loosen clothing gently",
+      "Cool the body using wet cloths or cool water"
+    ],
+    "redFlags": [
+      "High body temperature",
+      "Confusion or unconsciousness"
+    ],
+    "doNot": [
+      "Do not force the person to drink water",
+      "Do not apply ice packs directly on skin"
+    ]
+  },
+
+  "unconscious": {
+    "title": "Unconsciousness",
+    "audio": "unconscious_en.mp3",
+    "steps": [
+      "Place the person in recovery position",
+      "Check breathing and pulse",
+      "Start CPR if the person is not breathing"
+    ],
+    "redFlags": [
+      "No breathing",
+      "No pulse"
+    ],
+    "doNot": [
+      "Do not shake the person",
+      "Do not give food or water"
+    ]
+  }
+}

@@ -1,8 +1,9 @@
-import { View, StyleSheet } from 'react-native';
+import { View, Vibration, StyleSheet } from 'react-native';
 import NetworkStatus from '../hooks/NetworkStatus';
 import NetworkBanner from '../components/NetworkBanner';
 import HelpButton from '../components/HelpButton';
 import SpeakButton from '../components/SpeakButton';
+import AIButton from '../components/AIButton';
 
 export default function HomeScreen({ navigation }) {
   const isOnline = NetworkStatus();
@@ -13,11 +14,18 @@ export default function HomeScreen({ navigation }) {
 
       <View style={styles.content}>
         <HelpButton
-          onPress={() => navigation.navigate('EmergencyScreen')}
+          onPress={() => {
+            navigation.navigate('EmergencyScreen');
+            /*Vibration.vibrate(200);*/
+          }}
         />
 
         <SpeakButton
           onPress={() => navigation.navigate('VoiceEmergency')}
+        />
+        <AIButton
+          isOnline={isOnline}
+          onPress={() => navigation.navigate('AISymptomsScreen')}
         />
       </View>
     </View>
