@@ -1,10 +1,12 @@
+
 import { View, Vibration, StyleSheet } from 'react-native';
 import NetworkStatus from '../hooks/NetworkStatus';
 import NetworkBanner from '../components/NetworkBanner';
-import HelpButton from '../components/HelpButton';
 import SpeakButton from '../components/SpeakButton';
-import AIButton from '../components/AIButton';
+import VoiceEmergencyScreen from './VoiceEmergencyScreen';
+
 import SOSButton from '../components/SOSButton';
+import CustomCurvedTabBar from '../components/CustomCurvedTabBar'; 
 
 export default function HomeScreen({ navigation }) {
   const isOnline = NetworkStatus();
@@ -13,29 +15,25 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <NetworkBanner isOnline={isOnline} />
 
+      
       <View style={styles.content}>
-        <HelpButton
-          onPress={() => {
-            navigation.navigate('EmergencyScreen');
-            /*Vibration.vibrate(200);*/
-          }}
-        />
-
+       
+        
+      </View>
+      <View style ={styles.speakButton}>
         <SpeakButton
-          onPress={() => navigation.navigate('VoiceEmergency')}
-        />
-        <AIButton
-          isOnline={isOnline}
-          onPress={() => navigation.navigate('AISymptomsScreen')}
-        />
-      </View>
-      <View style={{ flex: 1 }}>
-
-        <View style={{ position: 'absolute', bottom: 40, right: 20 }}>
-          <SOSButton />
+          onPress={() => navigation.navigate('VoiceEmergencyScreen')} />
         </View>
+        
+
+     
+      <View style={styles.sosButtonContainer}>
+        <SOSButton />
       </View>
 
+      
+      <CustomCurvedTabBar navigation={navigation} />
+      
     </View>
   );
 }
@@ -43,11 +41,24 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#F0F4F8', 
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'center', 
     paddingHorizontal: 24,
+    paddingBottom: 120, 
+  },
+  sosButtonContainer: {
+    position: 'absolute',
+    top: 250, 
+    alignSelf: 'center', 
+    zIndex: 10, 
+  },
+  speakButton: {
+    position: 'absolute',
+    bottom: 50,
+    alignSelf: 'center',
+    zIndex: 10,
   },
 });

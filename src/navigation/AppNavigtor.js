@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import EmergencyScreen from '../screens/EmergencyScreen';
 import EmergencyDetailScreen from '../screens/EmergencyDetailScreen';
 import AISymptomsScreen from '../screens/AISymptomsScreen';
+import VoiceEmergencyScreen from '../screens/VoiceEmergencyScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ export default function AppNavigator() {
                 name="EmergencyDetailScreen"
                 component={EmergencyDetailScreen}
             />
+            <Stack.Screen
+        name="VoiceEmergencyScreen"
+        component={VoiceEmergencyScreen}
+      />
+
         </Stack.Navigator>
     );
 }

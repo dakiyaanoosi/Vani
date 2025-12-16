@@ -4,6 +4,7 @@ import emergencydetaileng from '../data/emergencydetaileng.json';
 import NetworkStatus from '../hooks/NetworkStatus';
 import emergencydetail from '../data/emergencydetail.json';
 import LangSelectorModal from '../components/LangSelectorModal';
+import emergencydetailbn from '../data/emergencydetailbn.json';
 
 
 
@@ -16,7 +17,7 @@ export default function EmergencyDetailScreen({ route }) {
   const emergencyDataMap = {
     en: emergencydetaileng,
     hi: emergencydetail,
-    bn: emergencydetail
+    bn: emergencydetailbn,
   };
   const data = emergencyDataMap[language][emergencyId];
 

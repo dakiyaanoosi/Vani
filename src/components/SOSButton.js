@@ -25,7 +25,6 @@ export default function SOSButton() {
                 PermissionsAndroid.PERMISSIONS.CALL_PHONE,
                 PermissionsAndroid.PERMISSIONS.SEND_SMS,
             ]);
-
             return Object.values(permissions).every(
                 p => p === PermissionsAndroid.RESULTS.GRANTED
             );
@@ -63,13 +62,11 @@ export default function SOSButton() {
         Geolocation.getCurrentPosition(
             position => {
                 const { latitude, longitude } = position.coords;
-
                 const mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
-
                 const message = `🚨 EMERGENCY 🚨
-                    I need immediate help.
-                    Location:
-                    ${mapUrl}`;
+I need immediate help.
+Location:
+${mapUrl}`;
 
                 // Call emergency number
                 Linking.openURL('tel:112');
@@ -82,10 +79,7 @@ export default function SOSButton() {
                 }, 3000);
             },
             () => {
-                Alert.alert(
-                    'Location error',
-                    'Calling emergency services.'
-                );
+                Alert.alert('Location error', 'Calling emergency services.');
                 Linking.openURL('tel:112');
             },
             { enableHighAccuracy: true, timeout: 15000 }
@@ -94,16 +88,22 @@ export default function SOSButton() {
 
     return (
         <>
-            <TouchableOpacity
-                style={styles.sosButton}
-                activeOpacity={0.8}
-                onLongPress={startSOS}
-                delayLongPress={2000}
-                accessibilityLabel="Emergency SOS Button"
-            >
-                <Text style={styles.sosText}>SOS</Text>
-                <Text style={styles.subText}>Hold 2s</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonWrapper}>
+                <View style={styles.backgroundCircleExtra} />
+                <View style={styles.backgroundCircleOuter} />
+                <View style={styles.backgroundCircleInner} />
+
+                <TouchableOpacity
+                    style={styles.sosButton}
+                    activeOpacity={0.8}
+                    onLongPress={startSOS}
+                    delayLongPress={2000}
+                    accessibilityLabel="Emergency SOS Button"
+                >
+                    <Text style={styles.sosText}>SOS</Text>
+                    <Text style={styles.subText}>Hold 2s</Text>
+                </TouchableOpacity>
+            </View>
 
             <Modal visible={showConfirm} transparent animationType="fade">
                 <View style={styles.modalBg}>
@@ -127,24 +127,54 @@ export default function SOSButton() {
 }
 
 const styles = StyleSheet.create({
+    buttonWrapper: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 40,
+    },
+    backgroundCircleInner: {
+        position: 'absolute',
+        width: 300,
+        height: 300,
+        borderRadius: 150,
+        backgroundColor: '#E53935',
+        opacity: 0.3,
+    },
+    backgroundCircleOuter: {
+        position: 'absolute',
+        width: 340,
+        height: 340,
+        borderRadius: 170,
+        backgroundColor: '#E53935',
+        opacity: 0.15,
+    },
+    backgroundCircleExtra: {
+        position: 'absolute',
+        width: 380,
+        height: 380,
+        borderRadius: 190,
+        backgroundColor: '#E53935',
+        opacity: 0.08,
+    },
     sosButton: {
-        width: 160,
-        height: 160,
-        borderRadius: 80,
+        width: 260,
+        height: 260,
+        borderRadius: 130,
         backgroundColor: '#E53935',
         justifyContent: 'center',
         alignItems: 'center',
-        elevation: 10,
+        elevation: 15,
+        zIndex: 1,
     },
     sosText: {
         color: '#fff',
-        fontSize: 36,
+        fontSize: 68,
         fontWeight: 'bold',
     },
     subText: {
         color: '#fff',
-        fontSize: 12,
-        marginTop: 4,
+        fontSize: 20,
+        marginTop: 2,
     },
     modalBg: {
         flex: 1,

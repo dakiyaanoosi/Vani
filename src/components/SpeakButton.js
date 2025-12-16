@@ -1,24 +1,47 @@
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function SpeakButton({ onPress }) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>🎤 Speak Emergency</Text>
-    </TouchableOpacity>
+    <View style={styles.wrapper}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel="Speak Emergency"
+      >
+        <Icon name="microphone" size={34} color="#551515ff" />
+        <Text style={styles.text}>Speak Emergency</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    borderWidth: 2,
-    borderColor: '#D32F2F',
-    paddingVertical: 16,
-    borderRadius: 12,
+  wrapper: {
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#e83838ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6, 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    padding: 10,
   },
   text: {
-    color: '#D32F2F',
-    fontSize: 18,
+    marginTop: 8,
+    fontSize: 14,
+    color: '#fff',
     fontWeight: '600',
+    textAlign: 'center',
   },
 });
