@@ -12,14 +12,20 @@ export default function AISymptomScreen() {
   const [loading, setLoading] = useState(false);
 
   const handleAnalyze = async () => {
-    if (!symptoms.trim()) return;
-    setLoading(true);
-    setResult(null);
+  if (!symptoms.trim()) return;
+  setLoading(true);
+  setResult(null);
 
-    try {
-      const response = await axios.post('https://api.openai.com/v1/responses', {
-        model: 'gemini-1.5',
-        input: `User has the following symptoms: ${symptoms}.
+  try {
+    const GEMINI_API_KEY = "api key"; // from Google AI Studio
+
+    const body = {
+      // you can format into structured prompt to ask for JSON output
+      "contents": [
+        {
+          "parts": [
+            {
+              "text": `User has the following symptoms: ${symptoms}.
 Respond with JSON exactly in this format:
 {
   "issue": "string",
@@ -28,33 +34,61 @@ Respond with JSON exactly in this format:
   "redFlags": ["flag1","flag2"],
   "confidence": "number"
 }`
-      }, {
-        headers: {
-          'Authorization': "YOUR_API_KEY",
-          'Content-Type': 'application/json'
+            }
+          ]
         }
-      });
+      ]
+    };
 
-      const raw = response.data.output[0].content[0].text;
-      const parsed = JSON.parse(raw);
-      
-      if (parsed.confidence < 60) {
-        Alert.alert(
-          'Low Confidence',
-          'AI is unsure about the diagnosis. Please seek immediate medical help.'
-        );
-        setResult(null);
-      } else {
-        setResult(parsed);
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+    const response = await axios.post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": GEMINI_API_KEY,
       }
+    });
 
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Failed to get AI response. Check your API key & internet.');
-    } finally {
+    console.log("Gemini raw:", response.data);
+
+    // Extract the text response
+    const text = response.data.candidates?.[0]?.content?.parts
+      ?.map(p => p.text)
+      ?.join("") || "";
+
+    if (!text) {
+      Alert.alert("Error", "No response text from Gemini");
       setLoading(false);
+      return;
     }
-  };
+
+    let parsed;
+    try {
+      parsed = JSON.parse(text.trim());
+    } catch (e) {
+      Alert.alert("Error", "Invalid JSON from Gemini. Try simplifying.");
+      setLoading(false);
+      return;
+    }
+
+    if (Number(parsed.confidence || 0) < 60) {
+      Alert.alert(
+        "Low Confidence",
+        "AI is unsure about the diagnosis. Please seek immediate medical help."
+      );
+      setResult(null);
+    } else {
+      setResult(parsed);
+    }
+
+  } catch (e) {
+    console.error("Gemini API error:", e.response?.data || e.message);
+    Alert.alert("Error", "Gemini API request failed.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -66,6 +100,7 @@ Respond with JSON exactly in this format:
         value={symptoms}
         onChangeText={setSymptoms}
         editable={isOnline && !loading}
+        multiline
       />
 
       <TouchableOpacity
@@ -111,7 +146,7 @@ Respond with JSON exactly in this format:
 const styles = StyleSheet.create({
   container: { padding: 20 },
   title: { fontSize: 24, fontWeight: '700', marginBottom: 20, textAlign: 'center' },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 10, padding: 12, marginBottom: 16 },
+  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 10, padding: 12, marginBottom: 16, minHeight: 80 },
   button: { backgroundColor: '#0D47A1', padding: 16, borderRadius: 10, alignItems: 'center' },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
   hint: { marginTop: 6, fontSize: 12, color: '#777', textAlign: 'center' },

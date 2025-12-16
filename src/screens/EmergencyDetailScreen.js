@@ -1,13 +1,26 @@
 import { View, Text, Linking, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from 'react';
 import emergencydetaileng from '../data/emergencydetaileng.json';
 import NetworkStatus from '../hooks/NetworkStatus';
+import emergencydetail from '../data/emergencydetail.json';
+import LangSelectorModal from '../components/LangSelectorModal';
 
 
 
 export default function EmergencyDetailScreen({ route }) {
   const isOnline = NetworkStatus();
   const { emergencyId } = route.params;
-  const data = emergencydetaileng[emergencyId];
+  const [language, setLanguage] = useState('en');
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const emergencyDataMap = {
+    en: emergencydetaileng,
+    hi: emergencydetail,
+    bn: emergencydetail
+  };
+  const data = emergencyDataMap[language][emergencyId];
+
+  /*const data = emergencydetaileng[emergencyId]; */
 
   if (!data) {         /* handles case when data is missing or json file is corrupted (exceptional) */
 
@@ -28,6 +41,25 @@ export default function EmergencyDetailScreen({ route }) {
             🔊 Audio guidance playing (offline)
           </Text>
         </View>
+         {/*  Language Button */}
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        accessibilityLabel="Change language"
+        style={{ alignSelf: 'flex-end', marginBottom: 10 }}
+      >
+        <Text style={{ fontSize: 14 }}>
+          🌐 Language: {language.toUpperCase()}
+        </Text>   
+      </TouchableOpacity> 
+
+      <LangSelectorModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        currentLanguage={language}
+        onSelectLanguage={setLanguage}
+      />
+
+
 
         <Text style={styles.sectionTitle}>What to do now</Text>
         {data.steps.map((step, index) => (

@@ -4,6 +4,7 @@ import NetworkBanner from '../components/NetworkBanner';
 import HelpButton from '../components/HelpButton';
 import SpeakButton from '../components/SpeakButton';
 import AIButton from '../components/AIButton';
+import SOSButton from '../components/SOSButton';
 
 export default function HomeScreen({ navigation }) {
   const isOnline = NetworkStatus();
@@ -28,6 +29,13 @@ export default function HomeScreen({ navigation }) {
           onPress={() => navigation.navigate('AISymptomsScreen')}
         />
       </View>
+      <View style={{ flex: 1 }}>
+
+        <View style={{ position: 'absolute', bottom: 40, right: 20 }}>
+          <SOSButton />
+        </View>
+      </View>
+
     </View>
   );
 }
