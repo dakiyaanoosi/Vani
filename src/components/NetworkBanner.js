@@ -2,34 +2,52 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export default function NetworkBanner({ isOnline }) {
   return (
-    <View
-      style={[
-        styles.banner,
-        { backgroundColor: isOnline ? '#4CAF50' : '#E53935' },
-      ]}
-    >
-      <Text style={styles.text}>
-        {isOnline
-          ? 'AI Assistance Available'
-          : 'Offline Mode Active – Emergency Help Available'}
-      </Text>
+    <View style={styles.wrapper}>
+      <View style={styles.banner}>
+        <View
+          style={[
+            styles.statusDot,
+            { backgroundColor: isOnline ? '#22C55E' : '#EF4444' },
+          ]}
+        />
+        <Text style={styles.text}>
+          {isOnline ? 'AI ONLINE' : 'OFFLINE MODE'}
+        </Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  banner: {
-    width: '100%',
+  wrapper: {
     position: 'absolute',
+    top: 40,
+    right: 16,
     zIndex: 30,
-    paddingVertical: 10,
-    alignItems: 'center',
-    marginTop: 20,
   },
-  text: {
-    color: '#ffffffff',
+
+  banner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 18,
+    backgroundColor: 'rgba(30, 41, 59, 0.85)', // frosted dark
+    elevation: 8,
+  },
+
+  statusDot: {
+    width: 9,
+    height: 9,
+    borderRadius: 4.5,
+    marginRight: 8,
     
-    fontWeight: '800',
-    fontSize: 16,
+  },
+
+  text: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#E5E7EB',
+    letterSpacing: 0.6,
   },
 });

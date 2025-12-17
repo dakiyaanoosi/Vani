@@ -101,7 +101,8 @@ ${mapUrl}`;
                     accessibilityLabel="Emergency SOS Button"
                 >
                     <Text style={styles.sosText}>SOS</Text>
-                    <Text style={styles.subText}>Hold 2s</Text>
+                    <Text style={styles.subText}>PRESS & HOLD
+</Text>
                 </TouchableOpacity>
             </View>
 

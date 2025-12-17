@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import Svg, { Path } from 'react-native-svg';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const { width } = Dimensions.get('window');
 
@@ -16,7 +16,6 @@ const TAB_BAR_HEIGHT = 80;
 
 const CustomCurvedTabBar = ({ navigation }) => {
 
-  // ✅ Responsive curved path
   const customPath = `
     M0,20
     C0,20 20,0 70,0
@@ -46,7 +45,7 @@ const CustomCurvedTabBar = ({ navigation }) => {
         accessibilityRole="button"
         accessibilityLabel="Emergency Help"
       >
-        <Icon name="hospital-box-outline" size={30} color="#D32F2F" />
+        <Icon name="medicine-box" size={30} color="#D32F2F" />
         <Text style={styles.iconText}>Help</Text>
       </TouchableOpacity>
 
@@ -57,7 +56,7 @@ const CustomCurvedTabBar = ({ navigation }) => {
         accessibilityRole="button"
         accessibilityLabel="AI Assistance"
       >
-        <Icon name="robot-outline" size={30} color="#0D47A1" />
+        <Icon name="open-ai" size={30} color="#0D47A1" /> 
         <Text style={styles.iconText}>AI</Text>
       </TouchableOpacity>
 
