@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { PermissionsAndroid, Platform } from 'react-native';
 import Voice from '@react-native-voice/voice';
 
 const useSpeechToText = () => {
@@ -7,44 +8,74 @@ const useSpeechToText = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!Voice) return;
+    Voice.onSpeechStart = () => {
+      setIsListening(true);
+      setError(null);
+    };
 
-    Voice.onSpeechStart = () => setIsListening(true);
     Voice.onSpeechEnd = () => setIsListening(false);
 
-    Voice.onSpeechResults = (e) => {
-      setRecognizedText(e?.value?.[0] ?? '');
+    Voice.onSpeechError = (e) => {
+      console.error('Speech Error:', e);
+      setError(e.error?.message || 'Speech recognition error');
+      setIsListening(false);
     };
 
-    Voice.onSpeechError = (e) => {
-      console.log('Speech error:', e);
-      setError(e);
+    Voice.onSpeechResults = (e) => {
+      if (e.value && e.value.length > 0) {
+        setRecognizedText(e.value[0]);
+      }
     };
+
 
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
     };
   }, []);
 
-  const startListening = async () => {
-    try {
-      if (isListening) return; 
-      await Voice.start('en-IN');
-    } catch (e) {
-      console.log('Start error:', e);
-      setError(e);
+  const requestPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+          {
+            title: 'Microphone Permission',
+            message: 'This app needs access to your microphone to transcribe speech.',
+            buttonPositive: 'OK',
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        return false;
+      }
     }
+    return true; 
   };
 
-  const stopListening = async () => {
-    try {
-      if (!isListening) return; 
-      await Voice.stop();
-    } catch (e) {
-      console.log('Stop error:', e);
-      setError(e);
+  const startListening = useCallback(async (locale = 'en-IN') => {
+    const hasPermission = await requestPermission();
+    if (!hasPermission) {
+      setError('Microphone permission denied');
+      return;
     }
-  };
+
+    try {
+      setRecognizedText('');
+      setError(null);
+      await Voice.start(locale);
+    } catch (e) {
+      setError(e.message);
+    }
+  }, []);
+
+  const stopListening = useCallback(async () => {
+    try {
+      await Voice.stop();
+      setIsListening(false);
+    } catch (e) {
+      setError(e.message);
+    }
+  }, []);
 
   return {
     isListening,

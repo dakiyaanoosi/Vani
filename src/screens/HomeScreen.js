@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 
   speakButton: {
     position: 'absolute',
-    bottom: 52,
+    bottom: 50,
     alignSelf: 'center',
     zIndex: 10,
   },

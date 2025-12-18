@@ -1,16 +1,25 @@
-import { View, Text, Linking, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  Linking,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import React, { useState } from 'react';
+
+
 import emergencydetaileng from '../data/emergencydetaileng.json';
-import NetworkStatus from '../hooks/NetworkStatus';
 import emergencydetail from '../data/emergencydetail.json';
-import LangSelectorModal from '../components/LangSelectorModal';
 import emergencydetailbn from '../data/emergencydetailbn.json';
 
-
+import NetworkStatus from '../hooks/NetworkStatus';
+import LangSelectorModal from '../components/LangSelectorModal';
 
 export default function EmergencyDetailScreen({ route }) {
   const isOnline = NetworkStatus();
   const { emergencyId } = route.params;
+
   const [language, setLanguage] = useState('en');
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -19,15 +28,13 @@ export default function EmergencyDetailScreen({ route }) {
     hi: emergencydetail,
     bn: emergencydetailbn,
   };
-  const data = emergencyDataMap[language][emergencyId];
 
-  /*const data = emergencydetaileng[emergencyId]; */
+  const data = emergencyDataMap[language]?.[emergencyId];
 
-  if (!data) {         /* handles case when data is missing or json file is corrupted (exceptional) */
-
+  if (!data) {
     return (
       <View style={styles.container}>
-        <Text>Emergency data unavailable. Please seek immediate help.</Text>
+        <Text>Emergency data unavailable.</Text>
       </View>
     );
   }
@@ -35,122 +42,238 @@ export default function EmergencyDetailScreen({ route }) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.headerRow}>
+          <Text style={styles.title}>{data.title}</Text>
 
-        <Text style={styles.title}>{data.title}</Text>
-        <View style={styles.audioBox}>
+          <TouchableOpacity
+            style={styles.langBtn}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={styles.langBtnText}>
+              🌐 LANG: {language.toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.audioBadge}>
           <Text style={styles.audioText}>
-            🔊 Audio guidance playing (offline)
+            🔊 Audio guidance available offline
           </Text>
         </View>
-         {/*  Language Button */}
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        accessibilityLabel="Change language"
-        style={{ alignSelf: 'flex-end', marginBottom: 10 }}
-      >
-        <Text style={{ fontSize: 14 }}>
-          🌐 Language: {language.toUpperCase()}
-        </Text>   
-      </TouchableOpacity> 
+        <View style={styles.illustrationContainer}>
+          <Text style={styles.placeholderText}>
+            Visual Guide for {data.title}
+          </Text>
+        </View>
+        <Text style={styles.sectionTitle}>What to do now</Text>
+        {data.steps.map((step, index) => (
+          <View key={index} style={[styles.stepCard, { borderLeftColor: '#23d24fff' }]}>
+            <View style={styles.stepNumber}>
+              <Text style={styles.stepNumberText}>{index + 1}</Text>
+            </View>
+            <Text style={styles.stepText}>{step}</Text>
+          </View>
+        ))}
+        <Text style={[styles.sectionTitle, { color: '#B71C1C' },]}>
+          Red Flags
+        </Text>
 
+        <View
+          style={[
+            styles.stepCard,
+            { borderLeftColor: '#B71C1C'},
+          ]}
+        >
+          <View style={[styles.stepNumber, { backgroundColor: '#B71C1C' }]}>
+            <Text style={styles.stepNumberText}>!</Text>
+          </View>
+
+          <View style={{ flex: 1 }}>
+            {data.redFlags.map((flag, i) => (
+              <Text key={i} style={styles.redFlagText}>
+                • {flag}
+              </Text>
+            ))}
+          </View>
+        </View>
+        <Text style={[styles.sectionTitle, { color: '#D84315' }]}>
+          Do Not
+        </Text>
+
+        <View
+          style={[
+            styles.stepCard,
+            { borderLeftColor: '#cf501aff'},
+          ]}
+        >
+          <View style={[styles.stepNumber, { backgroundColor: '#cf501aff' }]}>
+            <Text style={styles.stepNumberText}>✕</Text>
+          </View>
+
+          <View style={{ flex: 1 }}>
+            {data.doNot.map((item, i) => (
+              <Text key={i} style={styles.doNotText}>
+                • {item}
+              </Text>
+            ))}
+          </View>
+        </View>
+
+      </ScrollView>
+
+      <View style={styles.actionBar}>
+        <TouchableOpacity
+          style={[styles.actionBtn, { backgroundColor: '#B71C1C' }]}
+          onPress={() => Linking.openURL('tel:108')}
+        >
+          <Text style={styles.actionBtnText}>📞 Call 108</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.actionBtn, { backgroundColor: '#2a84deff' }]}
+          onPress={() => {
+            if (isOnline) {
+              Linking.openURL('http://maps.google.com/maps?q=hospital');
+            } else {
+              alert('Offline: Call 108 for assistance');
+            }
+          }}
+        >
+          <Text style={styles.actionBtnText}>🏥 Find Hospital</Text>
+        </TouchableOpacity>
+      </View>
       <LangSelectorModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         currentLanguage={language}
         onSelectLanguage={setLanguage}
       />
-
-
-
-        <Text style={styles.sectionTitle}>What to do now</Text>
-        {data.steps.map((step, index) => (
-          <Text key={index} style={styles.step}>
-            {index + 1}. {step}
-          </Text>
-        ))}
-
-        <Text style={[styles.sectionTitle, { color: '#B71C1C' }]}>
-          Red Flags
-        </Text>
-        {data.redFlags.map((flag, index) => (
-          <Text key={index} style={styles.redFlag}>
-            ❗ {flag}
-          </Text>
-        ))}
-
-        <Text style={styles.sectionTitle}>Do NOT</Text>
-        {data.doNot.map((item, index) => (
-          <Text key={index} style={styles.doNot}>
-            ✖ {item}
-          </Text>
-        ))}
-
-      </ScrollView>
-
-      <View style={styles.actionBar}>
-
-        <TouchableOpacity onPress={() => Linking.openURL('tel:108')}
-          accessibilityLabel="Call ambulance number 108" /* accessibility for screen readers */
-          accessibilityRole="button"
-          >
-          <Text style={styles.action}>📞 Call 108</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-          if (isOnline) {
-            Linking.openURL('https://www.google.com/maps/search/hospitals+near+me');
-          } else {
-            alert('Offline numbers:\n108 – Ambulance\n112 – Emergency');
-          }
-        }}>
-          <Text style={styles.action}>🏥 Find Hospital</Text>
-        </TouchableOpacity>
-
-      </View>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFF' },
-  content: { padding: 20, paddingBottom: 100 },
+  container: { flex: 1, backgroundColor: '#fdeee976' },
+  content: { padding: 20, paddingBottom: 120 },
 
-  title: {
-    fontSize: 26,
-    fontWeight: '800',
-    marginBottom: 16,
-    color: '#B71C1C'
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 4,
   },
 
-  audioBox: {
-    backgroundColor: '#FFF3E0',
-    padding: 14,
+  title: { fontSize: 30, letterSpacing: 1, fontWeight: '800', color: '#000' },
+
+  langBtn: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#ebe9e9ff',
     borderRadius: 10,
-    marginBottom: 20
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
-  audioText: { fontWeight: '600' },
+
+  langBtnText: { fontSize: 14, fontWeight: '700' },
+
+  audioBadge: {
+    backgroundColor: '#E3F2FD',
+    padding: 8,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginVertical: 10,
+    borderColor: '#d9e0e9ff',
+    borderWidth: 2,
+  },
+
+  audioText: { color: '#1976D2', fontSize: 13, fontWeight: 'bold' },
+
+  illustrationContainer: {
+    backgroundColor: '#FFF',
+    borderRadius: 15,
+    height: 200,
+    marginVertical: 15,
+    elevation: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#EEE',
+  },
+
+  placeholderText: { fontStyle: 'italic', color: '#888' },
 
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '700',
-    marginTop: 20,
-    marginBottom: 10
+    color: '#24b448ff',
+    marginVertical: 15,
   },
 
-  step: { fontSize: 16, marginBottom: 8 },
-  redFlag: { color: '#B71C1C', marginBottom: 6 },
-  doNot: { color: '#444', marginBottom: 6 },
+  stepCard: {
+    flexDirection: 'row',
+    backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 10,
+    alignItems: 'center',
+    elevation: 2,
+    borderLeftWidth: 11,
+  },
+
+  stepNumber: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#24b448ff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+
+  stepNumberText: { color: '#FFF', fontWeight: 'bold' },
+
+  stepText: {
+    flex: 1,
+    fontSize: 17,
+    color: '#11782bff',
+    fontWeight: '600',
+    lineHeight: 22,
+  },
+
+  redFlagText: {
+    color: '#B71C1C',
+       fontSize: 17,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+
+  doNotText: {
+    color: '#cf501aff',
+    fontWeight: '600',
+       fontSize: 17,
+    marginBottom: 4,
+  },
 
   actionBar: {
     position: 'absolute',
     bottom: 0,
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    padding: 16,
-    backgroundColor: '#FDECEA'
+    padding: 20,
+    backgroundColor: '#FFF',
+    borderTopWidth: 1,
+    borderColor: '#EEE',
+    gap: 10,
   },
-  action: {
+
+  actionBtn: {
+    flex: 1,
+    paddingVertical: 15,
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+
+  actionBtnText: {
+    color: '#FFF',
+    fontWeight: 'bold',
     fontSize: 16,
-    fontWeight: '700',
-    color: '#B71C1C'
-  }
+  },
 });

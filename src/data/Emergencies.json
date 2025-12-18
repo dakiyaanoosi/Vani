@@ -1,42 +1,20 @@
 [
-  {
-    "id": "bleeding",
-    "title": "Severe Bleeding",
-    "icon": "🩸"
-  },
-  {
-    "id": "burns",
-    "title": "Burns",
-    "icon": "🔥"
-  },
-  {
-    "id": "choking",
-    "title": "Choking",
-    "icon": "🫁"
-  },
-  {
-    "id": "fracture",
-    "title": "Fracture",
-    "icon": "🦴"
-  },
-  {
-    "id": "snake_bite",
-    "title": "Snake Bite",
-    "icon": "🐍"
-  },
-  {
-    "id": "electric_shock",
-    "title": "Electric Shock",
-    "icon": "⚡"
-  },
-  {
-    "id": "heat_stroke",
-    "title": "Heat Stroke",
-    "icon": "🌡"
-  },
-  {
-    "id": "unconscious",
-    "title": "Unconsciousness",
-    "icon": "😵"
-  }
+  { "id": "bleeding", "title": "Severe Bleeding", "icon": "🩸", "priority": "common" },
+  { "id": "burns", "title": "Burns", "icon": "🔥", "priority": "common" },
+  { "id": "choking", "title": "Choking", "icon": "🫁", "priority": "common" },
+  { "id": "fracture", "title": "Fracture", "icon": "🦴", "priority": "common" },
+  { "id": "snake_bite", "title": "Snake Bite", "icon": "🐍", "priority": "common" },
+  { "id": "electric_shock", "title": "Electric Shock", "icon": "⚡", "priority": "common" },
+  { "id": "heat_stroke", "title": "Heat Stroke", "icon": "🌡", "priority": "common" },
+  { "id": "unconscious", "title": "Unconsciousness", "icon": "😵", "priority": "common" },
+
+  { "id": "heart_attack", "title": "Heart Attack", "icon": "🫀", "priority": "critical" },
+  { "id": "stroke", "title": "Stroke", "icon": "🧠", "priority": "critical" },
+  { "id": "breathing_difficulty", "title": "Breathing Difficulty / Asthma", "icon": "😮‍💨", "priority": "critical" },
+  { "id": "poisoning", "title": "Poisoning", "icon": "☠️", "priority": "critical" },
+  { "id": "head_injury", "title": "Head Injury", "icon": "🤕", "priority": "critical" },
+  { "id": "allergic_reaction", "title": "Allergic Reaction", "icon": "🤧", "priority": "critical" },
+  { "id": "child_emergency", "title": "Child Emergency", "icon": "👶", "priority": "critical" },
+  { "id": "fever_seizure", "title": "High Fever / Seizure", "icon": "🤒", "priority": "critical" },
+  { "id": "hypothermia", "title": "Hypothermia", "icon": "🧊", "priority": "critical" }
 ]

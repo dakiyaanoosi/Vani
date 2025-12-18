@@ -5,8 +5,6 @@ import {
 import axios from 'axios';
 import NetworkStatus from '../hooks/NetworkStatus';
 
-// 1. IMPORTANT: Replace this with your NEW key from aistudio.google.com
-// Never share this key or push it to public repositories!
 const GEMINI_API_KEY = "key-SSXppYRjfPjbWOZjZ1jw4"; 
 
 export default function AISymptomScreen() {
@@ -25,7 +23,7 @@ export default function AISymptomScreen() {
     setResult(null);
 
     try {
-      // 2. THE CORRECT 2025 REST ENDPOINT
+     
       const modelId = "gemini-2.0-flash";
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -36,7 +34,7 @@ export default function AISymptomScreen() {
           }]
         }],
         generationConfig: {
-          // 3. ENFORCED JSON MODE (2025 Standard)
+      
           responseMimeType: "application/json",
           responseSchema: {
             type: "object",

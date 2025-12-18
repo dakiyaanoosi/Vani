@@ -1,90 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     Modal,
-    PermissionsAndroid,
-    Alert,
-    Linking,
-    Vibration,
 } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
-
-const EMERGENCY_CONTACT = '+91XXXXXXXXXX';
+import useSOS from '../hooks/useSOS';
 
 export default function SOSButton() {
-    const [showConfirm, setShowConfirm] = useState(false);
-    const countdownRef = useRef(null);
 
-    const requestPermissions = async () => {
-        try {
-            const permissions = await PermissionsAndroid.requestMultiple([
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                PermissionsAndroid.PERMISSIONS.CALL_PHONE,
-                PermissionsAndroid.PERMISSIONS.SEND_SMS,
-            ]);
-            return Object.values(permissions).every(
-                p => p === PermissionsAndroid.RESULTS.GRANTED
-            );
-        } catch {
-            return false;
-        }
-    };
-
-    const startSOS = async () => {
-        const granted = await requestPermissions();
-        if (!granted) {
-            Alert.alert(
-                'Permission required',
-                'SOS needs location, call and SMS permissions.'
-            );
-            return;
-        }
-
-        setShowConfirm(true);
-
-        countdownRef.current = setTimeout(() => {
-            setShowConfirm(false);
-            triggerSOS();
-        }, 3000);
-    };
-
-    const cancelSOS = () => {
-        clearTimeout(countdownRef.current);
-        setShowConfirm(false);
-    };
-
-    const triggerSOS = () => {
-        Vibration.vibrate([0, 500, 200, 500]);
-
-        Geolocation.getCurrentPosition(
-            position => {
-                const { latitude, longitude } = position.coords;
-                const mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
-                const message = `🚨 EMERGENCY 🚨
-I need immediate help.
-Location:
-${mapUrl}`;
-
-                // Call emergency number
-                Linking.openURL('tel:112');
-
-                // Send SMS after call
-                setTimeout(() => {
-                    Linking.openURL(
-                        `sms:${EMERGENCY_CONTACT}?body=${encodeURIComponent(message)}`
-                    );
-                }, 3000);
-            },
-            () => {
-                Alert.alert('Location error', 'Calling emergency services.');
-                Linking.openURL('tel:112');
-            },
-            { enableHighAccuracy: true, timeout: 15000 }
-        );
-    };
+    const { startSOS, showConfirm, cancelSOS } = useSOS();
 
     return (
         <>
@@ -101,8 +27,7 @@ ${mapUrl}`;
                     accessibilityLabel="Emergency SOS Button"
                 >
                     <Text style={styles.sosText}>SOS</Text>
-                    <Text style={styles.subText}>PRESS & HOLD
-</Text>
+                    <Text style={styles.subText}>PRESS & HOLD</Text>
                 </TouchableOpacity>
             </View>
 

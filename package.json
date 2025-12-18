@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@picovoice/cheetah-react-native": "^3.0.0",
+    "@picovoice/react-native-voice-processor": "^1.2.3",
     "@react-native-community/geolocation": "^3.4.0",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-voice/voice": "^3.2.4",

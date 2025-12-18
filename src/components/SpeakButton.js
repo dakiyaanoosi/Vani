@@ -11,7 +11,7 @@ export default function SpeakButton({ onPress }) {
         accessibilityRole="button"
         accessibilityLabel="Speak Emergency"
       >
-        <Icon name="microphone" size={34} color="#551515ff" />
+        <Icon name="microphone" size={34} color="#fff" />
         <Text style={styles.text}>Speak Emergency</Text>
       </TouchableOpacity>
     </View>
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: '#e83838ff',
+    backgroundColor: '#f21d1dff',
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 7, 
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   text: {
-    marginTop: 8,
-    fontSize: 14,
+    marginTop: 5,
+    fontSize: 15,
     color: '#fff',
     fontWeight: '600',
     textAlign: 'center',
