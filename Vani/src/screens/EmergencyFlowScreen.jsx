@@ -90,6 +90,7 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
       {/* Top Bar */}
       <View style={styles.topBar}>
         <TouchableOpacity
+          style={styles.iconHitSlop}
           onPress={() => {
             stopAudio();
             navigation.goBack();
@@ -243,5 +244,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     marginTop: 50,
+  },
+
+  iconHitSlop: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

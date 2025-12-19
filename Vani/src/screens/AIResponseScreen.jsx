@@ -241,7 +241,10 @@ const AIResponseScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       {/* Back */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.iconHitSlop}
+          onPress={() => navigation.goBack()}
+        >
           <Icon name="arrow-left" size={18} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -332,9 +335,9 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   userBubble: {
-    backgroundColor: '#25D366',
+    backgroundColor: '#134d37',
     padding: 14,
-    borderRadius: 18,
+    borderRadius: 14,
     maxWidth: '80%',
   },
   userText: { color: '#fff', fontSize: 15, lineHeight: 22 },
@@ -344,7 +347,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#111',
     padding: 14,
     borderRadius: 12,
-    maxWidth: '85%',
+    maxWidth: '90%',
   },
   aiText: { color: '#eee', fontSize: 15, lineHeight: 24 },
 
@@ -381,4 +384,11 @@ const styles = StyleSheet.create({
   alertText: { color: '#fff', fontSize: 14, marginBottom: 6 },
 
   loadingContainer: { alignItems: 'center', marginTop: 10 },
+
+  iconHitSlop: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

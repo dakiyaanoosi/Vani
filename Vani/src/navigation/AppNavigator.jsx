@@ -1,5 +1,15 @@
 import React from 'react';
+import { useState } from 'react';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { View, StyleSheet, Keyboard } from 'react-native';
+
+import { Alert, Linking } from 'react-native';
+import {
+  requestLocationPermission,
+  hasLocationPermission,
+} from '../services/locationService';
+import { requestSMSPermission } from '../services/permissions';
+
 import {
   NavigationContainer,
   createNavigationContainerRef,
@@ -18,6 +28,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { findEmergencyByKeyword } from '../services/offlineDB';
 import { classifyEmergencyWithGemini } from '../services/geminiRouter';
 import { useNetwork } from '../context/NetworkContext';
+import SOSScreen from '../screens/SOSScreen';
+import { useNavigationState } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,8 +39,46 @@ const AppNavigator = () => {
   // 2. Get current language to search the correct DB
   const { language } = useLanguage();
   const { isOnline } = useNetwork();
+  const isOnSOSScreen = currentRoute === 'SOS';
+  const [currentRoute, setCurrentRoute] = useState(null);
 
   const handleSend = async prompt => {
+    if (prompt === '__SOS__') {
+      const smsAllowed = await requestSMSPermission();
+
+      if (!smsAllowed) {
+        Alert.alert(
+          'SMS Permission Required',
+          'SMS permission is required to send emergency alerts to your contacts.',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Go to Settings', onPress: () => Linking.openSettings() },
+          ],
+        );
+        return;
+      }
+
+      let locationAllowed = await hasLocationPermission();
+      if (!locationAllowed) {
+        locationAllowed = await requestLocationPermission();
+      }
+
+      if (!locationAllowed) {
+        Alert.alert(
+          'Location Permission Required',
+          'Location permission is required to include your location in the SOS message.',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Go to Settings', onPress: () => Linking.openSettings() },
+          ],
+        );
+        return;
+      }
+
+      navigationRef.navigate('SOS');
+      return;
+    }
+
     if (!navigationRef.isReady()) return;
 
     Keyboard.dismiss();
@@ -65,20 +115,34 @@ const AppNavigator = () => {
     <View style={styles.root}>
       <GlobalNavbar />
 
-      <View style={styles.navigator}>
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen
-              name="EmergencyFlow"
-              component={EmergencyFlowScreen}
-            />
-            <Stack.Screen name="AIResponse" component={AIResponseScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <View style={styles.navigator}>
+          <NavigationContainer
+            ref={navigationRef}
+            onReady={() => {
+              setCurrentRoute(navigationRef.getCurrentRoute()?.name);
+            }}
+            onStateChange={() => {
+              setCurrentRoute(navigationRef.getCurrentRoute()?.name);
+            }}
+          >
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen
+                name="EmergencyFlow"
+                component={EmergencyFlowScreen}
+              />
+              <Stack.Screen name="AIResponse" component={AIResponseScreen} />
+              <Stack.Screen name="SOS" component={SOSScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
 
-      <GlobalChatBar onSend={handleSend} />
+        <GlobalChatBar onSend={handleSend} disableSOS={isOnSOSScreen} />
+      </KeyboardAvoidingView>
     </View>
   );
 };

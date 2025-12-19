@@ -31,7 +31,7 @@ const GlobalNavbar = () => {
       {/* Navbar */}
       <View style={styles.container}>
         {/* Menu Icon */}
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.iconHitSlop}>
           <Icon name="bars" size={18} color="#fff" />
         </TouchableOpacity>
 
@@ -39,7 +39,10 @@ const GlobalNavbar = () => {
         <Text style={styles.title}>VANI</Text>
 
         {/* Language Icon */}
-        <TouchableOpacity onPress={() => setShowLangMenu(true)}>
+        <TouchableOpacity
+          style={styles.iconHitSlop}
+          onPress={() => setShowLangMenu(true)}
+        >
           <Icon name="language" size={18} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -123,5 +126,12 @@ const styles = StyleSheet.create({
   langItemText: {
     color: '#fff',
     fontSize: 14,
+  },
+
+  iconHitSlop: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
