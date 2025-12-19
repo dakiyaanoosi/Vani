@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { View, StyleSheet, Keyboard } from 'react-native';
 
@@ -31,6 +31,19 @@ import { useNetwork } from '../context/NetworkContext';
 import SOSScreen from '../screens/SOSScreen';
 import { useNavigationState } from '@react-navigation/native';
 
+import SideBar from '../components/SideBar';
+import SOSContactsModal from '../components/SOSContactsModal';
+import SOSMessageModal from '../components/SOSMessageModal';
+
+import HelplineScreen from '../screens/HelplineScreen';
+
+import {
+  loadContacts,
+  saveContacts,
+  loadMessage,
+  saveMessage,
+} from '../services/sosStorage';
+
 const Stack = createNativeStackNavigator();
 
 export const navigationRef = createNavigationContainerRef();
@@ -41,6 +54,21 @@ const AppNavigator = () => {
   const { isOnline } = useNetwork();
   const isOnSOSScreen = currentRoute === 'SOS';
   const [currentRoute, setCurrentRoute] = useState(null);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [contactsVisible, setContactsVisible] = useState(false);
+  const [messageVisible, setMessageVisible] = useState(false);
+
+  const [contacts, setContacts] = useState([]);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      setContacts(await loadContacts());
+      setMessage(await loadMessage());
+    })();
+  }, []);
 
   const handleSend = async prompt => {
     if (prompt === '__SOS__') {
@@ -113,7 +141,7 @@ const AppNavigator = () => {
 
   return (
     <View style={styles.root}>
-      <GlobalNavbar />
+      <GlobalNavbar onMenuPress={() => setSidebarOpen(true)} />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -137,9 +165,38 @@ const AppNavigator = () => {
               />
               <Stack.Screen name="AIResponse" component={AIResponseScreen} />
               <Stack.Screen name="SOS" component={SOSScreen} />
+              <Stack.Screen name="Helplines" component={HelplineScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </View>
+
+        <SideBar
+          visible={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          onEditContacts={() => setContactsVisible(true)}
+          onEditMessage={() => setMessageVisible(true)}
+          navigation={navigationRef}
+        />
+
+        <SOSContactsModal
+          visible={contactsVisible}
+          contacts={contacts}
+          onClose={() => setContactsVisible(false)}
+          onSave={async c => {
+            setContacts(c);
+            await saveContacts(c);
+          }}
+        />
+
+        <SOSMessageModal
+          visible={messageVisible}
+          message={message}
+          onClose={() => setMessageVisible(false)}
+          onSave={async m => {
+            setMessage(m);
+            await saveMessage(m);
+          }}
+        />
 
         <GlobalChatBar onSend={handleSend} disableSOS={isOnSOSScreen} />
       </KeyboardAvoidingView>

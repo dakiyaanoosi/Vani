@@ -81,6 +81,13 @@ const SOSScreen = ({ navigation }) => {
         </TouchableOpacity>
         <View style={styles.headerIcons}>
           <TouchableOpacity
+            onPress={() => navigation.navigate('Helplines')}
+            style={styles.iconHitSlop}
+          >
+            <Icon name="phone" size={18} color="#fff" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
             style={styles.iconHitSlop}
             onPress={() => setContactsVisible(true)}
           >

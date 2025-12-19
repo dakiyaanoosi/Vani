@@ -17,7 +17,7 @@ const LANGUAGES = [
   { code: 'bn', label: 'বাংলা' },
 ];
 
-const GlobalNavbar = () => {
+const GlobalNavbar = ({ onMenuPress }) => {
   const { language, setLanguage } = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
 
@@ -31,7 +31,7 @@ const GlobalNavbar = () => {
       {/* Navbar */}
       <View style={styles.container}>
         {/* Menu Icon */}
-        <TouchableOpacity style={styles.iconHitSlop}>
+        <TouchableOpacity onPress={onMenuPress} style={styles.iconHitSlop}>
           <Icon name="bars" size={18} color="#fff" />
         </TouchableOpacity>
 
