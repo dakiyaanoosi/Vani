@@ -18,7 +18,7 @@ export const NetworkProvider = ({ children }) => {
   }, []);
 
   return (
-    <NetworkContext.Provider value={{ isOnline: true }}>
+    <NetworkContext.Provider value={{ isOnline }}>
       {children}
     </NetworkContext.Provider>
   );
