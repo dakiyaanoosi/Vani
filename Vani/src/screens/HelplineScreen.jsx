@@ -9,6 +9,11 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { HELPLINES } from '../data/helplines';
+import {
+  requestCallPermission,
+  openCallPermissionSettings,
+} from '../services/callPermission';
+import { makeEmergencyCall } from '../services/callService';
 
 const HelplineScreen = ({ navigation }) => {
   return (
@@ -39,7 +44,19 @@ const HelplineScreen = ({ navigation }) => {
 
             <View style={styles.divider} />
 
-            <TouchableOpacity style={[styles.callBtn, styles.iconHitSlop]}>
+            <TouchableOpacity
+              style={[styles.callBtn, styles.iconHitSlop]}
+              onPress={async () => {
+                const granted = await requestCallPermission();
+
+                if (!granted) {
+                  openCallPermissionSettings();
+                  return;
+                }
+
+                await makeEmergencyCall(item.number);
+              }}
+            >
               <Icon name="phone" size={18} color="#fff" />
             </TouchableOpacity>
           </View>
