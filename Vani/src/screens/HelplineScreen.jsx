@@ -9,11 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { HELPLINES } from '../data/helplines';
-import {
-  requestCallPermission,
-  openCallPermissionSettings,
-} from '../services/callPermission';
-import { makeEmergencyCall } from '../services/callService';
+import { Linking, Platform } from 'react-native';
 
 const HelplineScreen = ({ navigation }) => {
   return (
@@ -26,7 +22,8 @@ const HelplineScreen = ({ navigation }) => {
         >
           <Icon name="arrow-left" size={18} color="#fff" />
         </TouchableOpacity>
-        <View style={{ width: 18 }} />
+        <Text style={styles.title}>Helplines</Text>
+        <View style={{ width: 30 }} />
       </View>
 
       {/* List */}
@@ -46,15 +43,13 @@ const HelplineScreen = ({ navigation }) => {
 
             <TouchableOpacity
               style={[styles.callBtn, styles.iconHitSlop]}
-              onPress={async () => {
-                const granted = await requestCallPermission();
+              onPress={() => {
+                const url =
+                  Platform.OS === 'android'
+                    ? `tel:${item.number}`
+                    : `telprompt:${item.number}`;
 
-                if (!granted) {
-                  openCallPermissionSettings();
-                  return;
-                }
-
-                await makeEmergencyCall(item.number);
+                Linking.openURL(url);
               }}
             >
               <Icon name="phone" size={18} color="#fff" />
@@ -78,6 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
+    justifyContent: 'space-between',
   },
 
   iconHit: {
@@ -130,5 +126,11 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  title: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });

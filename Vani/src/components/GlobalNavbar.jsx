@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  Image,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -36,7 +37,11 @@ const GlobalNavbar = ({ onMenuPress }) => {
         </TouchableOpacity>
 
         {/* Title */}
-        <Text style={styles.title}>VANI</Text>
+        <Image
+          source={require('../assets/images/vani_logo.jpg')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
 
         {/* Language Icon */}
         <TouchableOpacity
@@ -133,5 +138,10 @@ const styles = StyleSheet.create({
     height: 44,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  logo: {
+    height: 28,
+    width: 90,
   },
 });

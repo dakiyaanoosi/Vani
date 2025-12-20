@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Call112Button from '../components/Call112Button';
 
 import { GEMINI_RESPONSE_API_KEY } from '@env';
 
@@ -241,12 +242,11 @@ const AIResponseScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       {/* Back */}
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconHitSlop}
-          onPress={() => navigation.goBack()}
-        >
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" size={18} color="#fff" />
         </TouchableOpacity>
+
+        <Call112Button />
       </View>
 
       <ScrollView
@@ -326,7 +326,13 @@ export default AIResponseScreen;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
-  header: { padding: 16 },
+  header: {
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
   content: { padding: 16, paddingBottom: 120 },
 
   userRow: {
@@ -390,5 +396,11 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  title: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });

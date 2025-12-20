@@ -13,6 +13,8 @@ import SoundPlayer from 'react-native-sound-player';
 import { useLanguage } from '../context/LanguageContext';
 import { getEmergencyById } from '../services/offlineDB';
 
+import Call112Button from '../components/Call112Button';
+
 const EmergencyFlowScreen = ({ route, navigation }) => {
   const { emergencyId } = route.params;
   const { language } = useLanguage();
@@ -90,7 +92,6 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
       {/* Top Bar */}
       <View style={styles.topBar}>
         <TouchableOpacity
-          style={styles.iconHitSlop}
           onPress={() => {
             stopAudio();
             navigation.goBack();
@@ -101,7 +102,7 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
 
         <Text style={styles.title}>{emergency.title}</Text>
 
-        <View style={{ width: 18 }} />
+        <Call112Button />
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>

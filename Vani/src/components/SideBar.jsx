@@ -50,7 +50,7 @@ const SideBar = ({
 
           <TouchableOpacity style={styles.item} onPress={onEditMessage}>
             <Icon name="edit" size={18} color="#fff" />
-            <Text style={styles.itemText}>Emergency Message</Text>
+            <Text style={styles.itemText}>SOS Message</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -61,7 +61,7 @@ const SideBar = ({
             }}
           >
             <Icon name="phone" size={18} color="#fff" />
-            <Text style={styles.itemText}>Emergency Helplines</Text>
+            <Text style={styles.itemText}>Helplines</Text>
           </TouchableOpacity>
         </Animated.View>
       </Pressable>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 20,
     borderRightWidth: 1,
-    borderRightColor: '#222',
+    borderRightColor: '#333',
   },
 
   title: {
@@ -92,6 +92,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 24,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    paddingLeft: '40%',
   },
 
   item: {
