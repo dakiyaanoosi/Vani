@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingVertical: 2,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: '#aaa',
   },
 
   input: {
@@ -172,8 +172,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingVertical: 14,
     paddingHorizontal: 18,
-    borderWidth: 2,
-    borderColor: '#333',
+    borderWidth: 1,
+    borderColor: '#aaa',
   },
 
   offlineText: {

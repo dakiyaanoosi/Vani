@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#222',
-    marginTop: '10%',
+    borderBottomColor: '#777',
+    marginTop: '8%',
   },
 
   title: {
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    height: 28,
+    height: 24,
     width: 90,
   },
 });

@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Call112Button from '../components/Call112Button';
@@ -14,7 +13,7 @@ import Call112Button from '../components/Call112Button';
 import { GEMINI_RESPONSE_API_KEY } from '@env';
 
 const SYSTEM_INSTRUCTION = `
-You are VANI_RESPONSE, a health, medical, and emergency assistance AI.
+You are Vani AI, a health, medical, and emergency assistance AI.
 You are NOT a general-purpose assistant.
 
 You must respond in the SAME LANGUAGE as the user's input.
@@ -47,7 +46,7 @@ Classify the user's query into ONE category:
    The user wants a definition, explanation, symptoms, causes, or basic help.
 
 3. OUTSIDE SCOPE  
-   Not related to health or safety.
+   Not related to health, safety or emergency.
 
 ========================
 RESPONSE RULES
@@ -346,7 +345,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     maxWidth: '80%',
   },
-  userText: { color: '#fff', fontSize: 15, lineHeight: 22 },
+  userText: { color: '#fff', fontSize: 16, lineHeight: 22 },
 
   aiWrapper: { alignItems: 'center', marginBottom: 20 },
   aiBubble: {
