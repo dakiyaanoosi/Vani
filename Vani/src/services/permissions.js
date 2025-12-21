@@ -7,7 +7,7 @@ export const requestMicPermission = async () => {
     PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
     {
       title: 'Microphone Permission',
-      message: 'Vani needs access to your microphone',
+      message: 'Vani needs microphone access to understand your voice.',
       buttonPositive: 'Allow',
     },
   );

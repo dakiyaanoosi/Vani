@@ -29,21 +29,17 @@ const GlobalNavbar = ({ onMenuPress }) => {
 
   return (
     <View>
-      {/* Navbar */}
       <View style={styles.container}>
-        {/* Menu Icon */}
         <TouchableOpacity onPress={onMenuPress} style={styles.iconHitSlop}>
           <Icon name="bars" size={18} color="#fff" />
         </TouchableOpacity>
 
-        {/* Title */}
         <Image
-          source={require('../assets/images/vani_logo.jpg')}
+          source={require('../assets/images/vani_logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
 
-        {/* Language Icon */}
         <TouchableOpacity
           style={styles.iconHitSlop}
           onPress={() => setShowLangMenu(true)}
@@ -52,7 +48,6 @@ const GlobalNavbar = ({ onMenuPress }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Language Dropdown */}
       <Modal
         visible={showLangMenu}
         transparent
@@ -87,15 +82,13 @@ export default GlobalNavbar;
 
 const styles = StyleSheet.create({
   container: {
-    height: 56,
-    backgroundColor: '#000',
+    height: 90,
+    backgroundColor: '#110000dd',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#777',
-    marginTop: '8%',
+    paddingTop: "9%"
   },
 
   title: {

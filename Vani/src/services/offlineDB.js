@@ -28,6 +28,6 @@ export const findEmergencyByKeyword = (text, language) => {
       }
     });
 
-    return score >= 2; // HIGH confidence only
+    return score >= 2;
   });
 };

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import SoundPlayer from 'react-native-sound-player';
 
 import { useLanguage } from '../context/LanguageContext';
@@ -61,22 +61,17 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
     };
   }, []);
 
-  /** 🔹 Autoplay on screen enter */
   useEffect(() => {
     playAudio();
 
     return () => {
-      /** 🔹 Stop audio when leaving screen */
       stopAudio();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /** 🔹 Restart audio if language changes */
   useEffect(() => {
     stopAudio();
     playAudio();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
   if (!emergency) {
@@ -97,7 +92,7 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
             navigation.goBack();
           }}
         >
-          <Icon name="arrow-left" size={18} color="#fff" />
+          <Icon name="keyboard-backspace" size={28} color="#fff" />
         </TouchableOpacity>
 
         <Text style={styles.title}>{emergency.title}</Text>
@@ -106,9 +101,12 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Audio Control */}
         <TouchableOpacity style={styles.audioButton} onPress={toggleAudio}>
-          <Icon name={isPlaying ? 'pause' : 'play'} size={16} color="#fff" />
+          <Icon
+            name={isPlaying ? 'pause' : 'play-arrow'}
+            size={22}
+            color="#fff"
+          />
           <Text style={styles.audioText}>
             {isPlaying ? 'Pause Audio' : 'Play Audio'}
           </Text>
@@ -124,10 +122,9 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
           </View>
         ))}
 
-        {/* Red Flags */}
         <View style={styles.alertBox}>
           <View style={styles.alertHeader}>
-            <Icon name="exclamation-triangle" size={18} color="#ff4d4d" />
+            <Icon name="warning-amber" size={22} color="#ff4d4d" />
             <Text style={styles.alertTitle}>Emergency Warning</Text>
           </View>
 
@@ -173,9 +170,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     marginBottom: 24,
-    paddingHorizontal: 18,
+    paddingHorizontal: 12,
     paddingVertical: 10,
-    borderRadius: 20,
+    borderRadius: 24,
     backgroundColor: '#111',
     borderWidth: 1,
     borderColor: '#ff4d4d',

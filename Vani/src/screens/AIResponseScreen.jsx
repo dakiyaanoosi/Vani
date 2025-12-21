@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Call112Button from '../components/Call112Button';
 
 import { GEMINI_RESPONSE_API_KEY } from '@env';
@@ -154,12 +154,9 @@ const AIResponseScreen = ({ navigation, route }) => {
         },
       );
 
-      // --- FIX START ---
-      // Check for HTTP errors (like 503, 500, 400)
       if (!res.ok) {
         throw new Error(`HTTP Error: ${res.status}`);
       }
-      // --- FIX END ---
 
       const data = await res.json();
       const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -190,7 +187,6 @@ const AIResponseScreen = ({ navigation, route }) => {
         };
       }
 
-      // 🔒 HARD FAIL-SAFE: empty or invalid content
       if (
         !parsed ||
         (parsed.type === 'text' &&
@@ -214,7 +210,6 @@ const AIResponseScreen = ({ navigation, route }) => {
 
       setMessages(prev => [...prev, { role: 'ai', data: parsed }]);
     } catch (err) {
-      console.error('AI Fetch Error:', err); // Helpful for debugging
       setMessages(prev => [
         ...prev,
         {
@@ -239,10 +234,9 @@ const AIResponseScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {/* Back */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={18} color="#fff" />
+          <Icon name="keyboard-backspace" size={28} color="#fff" />
         </TouchableOpacity>
 
         <Call112Button />
@@ -282,7 +276,7 @@ const AIResponseScreen = ({ navigation, route }) => {
                   <View style={styles.alertBox}>
                     <View style={styles.alertHeader}>
                       <Icon
-                        name="exclamation-triangle"
+                        name="warning-amber"
                         size={18}
                         color="#ff4d4d"
                       />
@@ -320,8 +314,6 @@ const AIResponseScreen = ({ navigation, route }) => {
 };
 
 export default AIResponseScreen;
-
-/* ================= STYLES ================= */
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },

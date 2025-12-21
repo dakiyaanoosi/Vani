@@ -9,6 +9,7 @@ import {
 
 import { useLanguage } from '../context/LanguageContext';
 import { getAllEmergencies } from '../services/offlineDB';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const HomeScreen = () => {
   const { language } = useLanguage();
@@ -20,7 +21,6 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.heading}>How can I help?</Text>
 
-      {/* SAME UI FOR ONLINE & OFFLINE */}
       <FlatList
         data={emergencies}
         keyExtractor={item => item.id}
@@ -35,6 +35,7 @@ const HomeScreen = () => {
             }
           >
             <Text style={styles.cardText}>{item.title}</Text>
+            <Icon name="chevron-forward" size={20} color="#ccc" />
           </TouchableOpacity>
         )}
       />
@@ -44,7 +45,6 @@ const HomeScreen = () => {
 
 export default HomeScreen;
 
-/* ================= STYLES ================= */
 
 const styles = StyleSheet.create({
   container: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
 
   list: {
-    paddingBottom: 120, // space for global chat / offline alert bar
+    paddingBottom: 120,
   },
 
   card: {
@@ -70,6 +70,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   cardText: {

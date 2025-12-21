@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { HELPLINES } from '../data/helplines';
 import { Linking, Platform } from 'react-native';
@@ -14,19 +14,17 @@ import { Linking, Platform } from 'react-native';
 const HelplineScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      {/* Top bar */}
       <View style={styles.topBar}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.iconHit}
         >
-          <Icon name="arrow-left" size={18} color="#fff" />
+          <Icon name="keyboard-backspace" size={28} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.title}>Helplines</Text>
         <View style={{ width: 30 }} />
       </View>
 
-      {/* List */}
       <FlatList
         data={HELPLINES}
         keyExtractor={item => item.id}

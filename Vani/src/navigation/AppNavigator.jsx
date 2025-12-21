@@ -23,7 +23,6 @@ import AIResponseScreen from '../screens/AIResponseScreen';
 import GlobalNavbar from '../components/GlobalNavbar';
 import GlobalChatBar from '../components/GlobalChatBar';
 
-// 1. Import the Brain and the Offline Search Service
 import { useLanguage } from '../context/LanguageContext';
 import { findEmergencyByKeyword } from '../services/offlineDB';
 import { classifyEmergencyWithGemini } from '../services/geminiRouter';
@@ -49,7 +48,6 @@ const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
 
 const AppNavigator = () => {
-  // 2. Get current language to search the correct DB
   const { language } = useLanguage();
   const { isOnline } = useNetwork();
   const isOnSOSScreen = currentRoute === 'SOS';
@@ -111,7 +109,6 @@ const AppNavigator = () => {
 
     Keyboard.dismiss();
 
-    // 1️⃣ Offline HIGH-CONFIDENCE check
     const offlineMatch = findEmergencyByKeyword(prompt, language);
 
     if (offlineMatch) {
@@ -121,13 +118,11 @@ const AppNavigator = () => {
       return;
     }
 
-    // 2️⃣ If offline, go straight to AI advice
     if (!isOnline) {
       navigationRef.navigate('AIResponse', { prompt });
       return;
     }
 
-    // 3️⃣ Online → ask Gemini ROUTER
     const geminiResult = await classifyEmergencyWithGemini(prompt);
 
     if (geminiResult !== 'NONE') {

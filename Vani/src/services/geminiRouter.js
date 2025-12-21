@@ -33,7 +33,8 @@ NEGATIVE EXAMPLES:
 - general health questions
 
 FINAL RULE:
-If unsure, return NONE.
+- If unsure, return NONE.
+- if the prompt contains "/ai" (case-insensitive) anywhere, return NONE.
 `;
 
 export const classifyEmergencyWithGemini = async userInput => {

@@ -1,20 +1,32 @@
 import { Keyboard, Platform } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { useState, useEffect } from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import { useNetwork } from '../context/NetworkContext';
+import {
+  startSTTRecording,
+  stopSTTRecordingAndTranscribe,
+} from '../services/sttLeopard';
+
+import { Alert, Linking } from 'react-native';
+import { requestMicPermission } from '../services/permissions';
 
 const GlobalChatBar = ({ onSend, disableSOS = false }) => {
   const { isOnline } = useNetwork();
-  const [isListening, setIsListening] = useState(false);
+
   const [text, setText] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [keyboardOffset, setKeyboardOffset] = useState(0);
+
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (Platform.OS !== 'android') return;
@@ -25,6 +37,7 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
 
     const hideSub = Keyboard.addListener('keyboardDidHide', () => {
       setKeyboardOffset(0);
+      inputRef.current?.blur();
     });
 
     return () => {
@@ -32,6 +45,12 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
       hideSub.remove();
     };
   }, []);
+
+  useEffect(() => {
+    if (text.trim().length > 0 && isListening && !isProcessing) {
+      setIsListening(false);
+    }
+  }, [text, isListening, isProcessing]);
 
   if (!isOnline) {
     return (
@@ -42,7 +61,6 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
         ]}
       >
         <View style={styles.row}>
-          {/* SOS BUTTON */}
           <TouchableOpacity
             style={[styles.sosButton, disableSOS && styles.sosButtonDisabled]}
             onPress={() => !disableSOS && onSend?.('__SOS__')}
@@ -51,7 +69,6 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
             <Text style={styles.sosText}>SOS</Text>
           </TouchableOpacity>
 
-          {/* OFFLINE ALERT */}
           <View style={styles.offlineAlert}>
             <Text style={styles.offlineText}>
               Offline emergency help is available.
@@ -66,19 +83,19 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
     if (!text.trim()) return;
     onSend?.(text.trim());
     setText('');
+    inputRef.current?.blur();
   };
+
+  const micDisabled = text.trim().length > 0 || isProcessing;
 
   return (
     <View
       style={[
         styles.container,
-        {
-          bottom: keyboardOffset > 0 ? keyboardOffset : 0,
-        },
+        { bottom: keyboardOffset > 0 ? keyboardOffset : 0 },
       ]}
     >
       <View style={styles.row}>
-        {/* SOS BUTTON */}
         <TouchableOpacity
           style={styles.sosButton}
           onPress={() => onSend?.('__SOS__')}
@@ -86,26 +103,79 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
           <Text style={styles.sosText}>SOS</Text>
         </TouchableOpacity>
 
-        {/* CHAT INPUT */}
         <View style={styles.voiceInput}>
           <TextInput
+            ref={inputRef}
             value={text}
             onChangeText={setText}
-            placeholder={isListening ? 'Listening…' : 'Ask Vani'}
+            placeholder={
+              isProcessing
+                ? 'Processing...'
+                : isListening
+                ? 'Listening...'
+                : 'Ask Vani'
+            }
+            editable={!isListening && !isProcessing}
             placeholderTextColor="#888"
             style={styles.input}
             multiline
           />
 
           <TouchableOpacity
-            style={styles.iconHitSlop}
-            onPress={() => setIsListening(p => !p)}
+            style={[styles.iconHitSlop, micDisabled && { opacity: 0.3 }]}
+            disabled={micDisabled}
+            onPress={async () => {
+              if (!isListening) {
+                const allowed = await requestMicPermission();
+
+                if (!allowed) {
+                  Alert.alert(
+                    'Microphone Permission Required',
+                    'Microphone access is required to understand your voice.',
+                    [
+                      { text: 'Cancel', style: 'cancel' },
+                      {
+                        text: 'Go to Settings',
+                        onPress: () => Linking.openSettings(),
+                      },
+                    ],
+                  );
+                  return;
+                }
+
+                setIsListening(true);
+                setIsProcessing(false);
+
+                try {
+                  await startSTTRecording();
+                } catch (e) {
+                  console.log('STT start error:', e);
+                  setIsListening(false);
+                }
+              } else {
+                setIsListening(false);
+                setIsProcessing(true);
+
+                try {
+                  const transcript = await stopSTTRecordingAndTranscribe();
+                  setText(transcript);
+                } catch (e) {
+                  console.log('STT error:', e);
+                } finally {
+                  setIsProcessing(false);
+                }
+              }
+            }}
           >
-            <Icon
-              name={isListening ? 'stop' : 'microphone'}
-              size={18}
-              color={isListening ? '#ff4d4d' : '#fff'}
-            />
+            {isProcessing ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Icon
+                name={isListening ? 'stop' : 'mic'}
+                size={20}
+                color={isListening ? '#ff4d4d' : '#fff'}
+              />
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -113,7 +183,7 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
             disabled={!text.trim()}
             style={[styles.iconHitSlop, { opacity: text.trim() ? 1 : 0.4 }]}
           >
-            <Icon name="paper-plane" size={16} color="#fff" />
+            <Icon name="send" size={18} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -123,25 +193,13 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
 
 export default GlobalChatBar;
 
-/* ================= STYLES ================= */
-
 const styles = StyleSheet.create({
-  // container: {
-  //   position: 'absolute',
-  //   bottom: 0,
-  //   left: 0,
-  //   right: 0,
-  //   padding: 16,
-  //   paddingBottom: 55,
-  //   backgroundColor: '#000',
-  // },
-
   container: {
     position: 'absolute',
     left: 0,
     right: 0,
     padding: 16,
-    paddingBottom: 55, // 👈 fixed safe value
+    paddingBottom: 55,
     backgroundColor: '#000',
   },
 

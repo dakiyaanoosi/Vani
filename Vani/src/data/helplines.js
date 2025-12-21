@@ -1,11 +1,9 @@
 export const HELPLINES = [
-  // Health-related first (as requested)
   { id: 'ambulance', label: 'Ambulance', number: '108' },
   { id: 'emergency', label: 'Emergency (All-in-One)', number: '112' },
   { id: 'women', label: 'Women Helpline', number: '181' },
   { id: 'child', label: 'Child Helpline', number: '1098' },
 
-  // Others
   { id: 'police', label: 'Police', number: '100' },
   { id: 'fire', label: 'Fire Brigade', number: '101' },
   { id: 'senior', label: 'Senior Citizen', number: '14567' },

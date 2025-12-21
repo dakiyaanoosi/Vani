@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Feather';
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
 import SOSButton from '../components/SOSButton';
 import SOSConfirmModal from '../components/SOSConfirmModal';
@@ -77,7 +78,7 @@ const SOSScreen = ({ navigation }) => {
           style={styles.iconHitSlop}
           onPress={() => navigation.goBack()}
         >
-          <Icon name="arrow-left" size={18} color="#fff" />
+          <Icon2 name="keyboard-backspace" size={28} color="#fff" />
         </TouchableOpacity>
         <View style={styles.headerIcons}>
           <TouchableOpacity
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: '50%', // 👈 moves SOS button UP
+    paddingBottom: '50%',
   },
   hint: { marginTop: 20, color: '#aaa' },
   iconHitSlop: {

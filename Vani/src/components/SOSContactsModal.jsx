@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Feather';
 
 const MAX = 3;
 const isValidPhone = phone => /^[0-9]{7,15}$/.test(phone);
@@ -57,7 +57,14 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
     <Modal visible={visible} transparent animationType="fade">
       <Pressable style={styles.overlay} onPress={onClose}>
         <Pressable style={styles.box}>
-          <Text style={styles.title}>Emergency Contacts</Text>
+          <View style={styles.header}>
+            <Text style={styles.title}>Emergency Contacts</Text>
+            {local.length < MAX && (
+              <TouchableOpacity style={styles.title} onPress={addContact}>
+                <Icon name="user-plus" size={18} color="#fff" />
+              </TouchableOpacity>
+            )}
+          </View>
 
           {local.map((c, i) => {
             const showNameError = submitted && c.name.trim() === '';
@@ -67,7 +74,6 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
             return (
               <View key={i} style={styles.contactBlock}>
                 <View style={styles.row}>
-                  {/* Container for both inputs to keep them aligned left of the delete button */}
                   <View style={styles.inputContainer}>
                     <TextInput
                       placeholder="Name"
@@ -82,7 +88,7 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
                     )}
 
                     <TextInput
-                      placeholder="Phone (digits only)"
+                      placeholder="Phone"
                       placeholderTextColor="#666"
                       style={[styles.input, styles.phoneInput]}
                       keyboardType="number-pad"
@@ -100,7 +106,6 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
                     )}
                   </View>
 
-                  {/* Delete button now sits to the right of the input stack */}
                   <TouchableOpacity
                     style={styles.deleteBtn}
                     onPress={() => remove(i)}
@@ -112,12 +117,6 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
               </View>
             );
           })}
-
-          {local.length < MAX && (
-            <TouchableOpacity onPress={addContact}>
-              <Text style={styles.add}>+ Add Contact</Text>
-            </TouchableOpacity>
-          )}
 
           <TouchableOpacity style={styles.save} onPress={handleSave}>
             <Text style={styles.saveText}>Save</Text>
@@ -156,10 +155,10 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center', // Aligns trash icon vertically to the center of the input group
+    alignItems: 'center',
   },
   inputContainer: {
-    flex: 1, // Takes up remaining space minus the delete button
+    flex: 1,
   },
   input: {
     borderWidth: 1.5,
@@ -198,5 +197,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontWeight: '500',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
   },
 });

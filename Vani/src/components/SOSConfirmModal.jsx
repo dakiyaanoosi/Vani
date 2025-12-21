@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 
-const DURATION = 3; // 4 seconds
+const DURATION = 3;
 
 const SOSConfirmModal = ({ visible, onCancel, onConfirm }) => {
   const [count, setCount] = useState(DURATION);
@@ -17,7 +17,6 @@ const SOSConfirmModal = ({ visible, onCancel, onConfirm }) => {
           clearInterval(timer);
           active = false;
 
-          // 🔑 defer parent update to next tick
           setTimeout(() => {
             onConfirm();
           }, 0);

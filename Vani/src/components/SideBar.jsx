@@ -8,7 +8,7 @@ import {
   Animated,
   Pressable,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Feather';
 
 const SideBar = ({
   visible,
@@ -56,7 +56,7 @@ const SideBar = ({
           <TouchableOpacity
             style={styles.item}
             onPress={() => {
-              onClose(); // 👈 close sidebar ONLY here
+              onClose();
               navigation.navigate('Helplines');
             }}
           >
