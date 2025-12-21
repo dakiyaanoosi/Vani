@@ -1,0 +1,216 @@
+{
+  "language": "en",
+  "emergencies": [
+    {
+      "id": "severe_bleeding",
+      "title": "Severe Bleeding",
+      "keywords": [
+        "bleeding",
+        "blood",
+        "heavy bleeding",
+        "deep cut",
+        "lots of blood",
+        "blood loss",
+        "hemorrhage",
+        "stab wound"
+      ],
+      "steps": [
+        "Call emergency services immediately.",
+        "Make the person lie down to prevent fainting.",
+        "Apply firm, direct pressure on the wound using a clean cloth or gauze.",
+        "Maintain pressure for at least 10 minutes. Do NOT lift the cloth to check.",
+        "If blood soaks through, place another cloth on top. Do NOT remove the first one.",
+        "Do not remove objects stuck deeply in the wound.",
+        "Keep the injured part raised above heart level if possible."
+      ],
+      "red_flags": [
+        "Bleeding does not stop after applying pressure",
+        "Person feels cold, pale, or becomes unconscious (Shock)",
+        "Blood is spurting out in a rhythm"
+      ],
+      "audio": "severe_bleeding_en.mp3"
+    },
+    {
+      "id": "burns",
+      "title": "Burns (Fire / Hot Liquid)",
+      "keywords": [
+        "burn",
+        "fire",
+        "hot liquid",
+        "scald",
+        "blister",
+        "skin burn",
+        "hot water",
+        "steam"
+      ],
+      "steps": [
+        "Move the person away from the heat source immediately.",
+        "Cool the burn with cool running water for 20 minutes. (Crucial step).",
+        "Remove jewelry or tight clothing near the burn before swelling starts.",
+        "Cover the burn with plastic cling film or a clean, non-fluffy cloth.",
+        "Do NOT apply ice, butter, toothpaste, or creams.",
+        "Do NOT burst any blisters."
+      ],
+      "red_flags": [
+        "Burn is larger than the patient's hand",
+        "Burn is on the face, hands, or genitals",
+        "Skin looks white, leathery, or charred"
+      ],
+      "audio": "burns_en.mp3"
+    },
+    {
+      "id": "choking",
+      "title": "Choking",
+      "keywords": [
+        "choking",
+        "can't breathe",
+        "food stuck",
+        "blocked throat",
+        "gasping",
+        "holding throat"
+      ],
+      "steps": [
+        "Ask 'Are you choking?'. If they cannot speak or cough, act immediately.",
+        "Stand behind them and lean them slightly forward.",
+        "Give 5 sharp back blows between the shoulder blades with the heel of your hand.",
+        "If that fails, perform 5 Abdominal Thrusts (Heimlich Maneuver).",
+        "Repeat cycle: 5 Back Blows, 5 Abdominal Thrusts.",
+        "If they become unconscious, start CPR."
+      ],
+      "red_flags": [
+        "Person becomes unconscious",
+        "Lips or face turning blue",
+        "Silent attempting to cough (Total blockage)"
+      ],
+      "audio": "choking_en.mp3"
+    },
+    {
+      "id": "snake_bite",
+      "title": "Snake Bite",
+      "keywords": [
+        "snake bite",
+        "bitten by snake",
+        "venom",
+        "poison",
+        "cobra",
+        "viper",
+        "snake attack"
+      ],
+      "steps": [
+        "Move away from the snake immediately.",
+        "Keep the person completely calm and still. Movement spreads venom.",
+        "Immobilize the bitten limb and keep it at heart level.",
+        "Remove tight clothing, rings, or watches near the bite.",
+        "Do NOT cut the wound, suck the venom, or apply ice.",
+        "Take the person to the nearest hospital immediately."
+      ],
+      "red_flags": [
+        "Difficulty breathing or swallowing",
+        "Rapid swelling or discoloration",
+        "Drooping eyelids or slurred speech"
+      ],
+      "audio": "snake_bite_en.mp3"
+    },
+    {
+      "id": "electric_shock",
+      "title": "Electric Shock",
+      "keywords": [
+        "electric shock",
+        "electrocuted",
+        "current",
+        "live wire",
+        "shock",
+        "electricity"
+      ],
+      "steps": [
+        "Do NOT touch the person if they are still in contact with the power source.",
+        "Turn off the main power source immediately.",
+        "If you cannot turn off power, push the person away using a dry wooden stick or plastic object.",
+        "Check for breathing. If not breathing, start CPR immediately.",
+        "Treat any burns with cool water."
+      ],
+      "red_flags": [
+        "Unconsciousness",
+        "No pulse or breathing",
+        "Severe burns at contact points"
+      ],
+      "audio": "electric_shock_en.mp3"
+    },
+    {
+      "id": "fracture",
+      "title": "Fracture / Broken Bone",
+      "keywords": [
+        "fracture",
+        "broken bone",
+        "bone stick out",
+        "snap sound",
+        "leg pain",
+        "arm pain"
+      ],
+      "steps": [
+        "Do not move the person unless they are in immediate danger.",
+        "Support the injured limb with padding to prevent movement.",
+        "Do NOT try to straighten the bone or push it back in.",
+        "Apply an ice pack wrapped in a cloth to reduce swelling.",
+        "Take the person to the nearest hospital."
+      ],
+      "red_flags": [
+        "Bone is sticking out through the skin",
+        "Limb feels cold, numb, or turns blue",
+        "Unbearable pain"
+      ],
+      "audio": "fracture_en.mp3"
+    },
+    {
+      "id": "unconscious",
+      "title": "Unconscious Person",
+      "keywords": [
+        "unconscious",
+        "fainted",
+        "passed out",
+        "collapsed",
+        "not waking up",
+        "faint"
+      ],
+      "steps": [
+        "Check surroundings for danger.",
+        "Shake shoulders gently and shout to check response.",
+        "If no response, tilt head back to open airway.",
+        "Check breathing for 10 seconds.",
+        "If breathing: Roll onto side (Recovery Position).",
+        "If NOT breathing: Start CPR (30 compressions, 2 breaths) immediately."
+      ],
+      "red_flags": [
+        "No breathing",
+        "Gasping or irregular breathing",
+        "Suspected neck or spine injury"
+      ],
+      "audio": "unconscious_en.mp3"
+    },
+    {
+      "id": "seizure",
+      "title": "Seizure / Fits",
+      "keywords": [
+        "seizure",
+        "fits",
+        "epilepsy",
+        "shaking",
+        "jerking",
+        "convulsion"
+      ],
+      "steps": [
+        "Note the start time of the seizure.",
+        "Clear the area of hard objects to prevent injury.",
+        "Place something soft under the head.",
+        "Do NOT restrain them. Do NOT put anything in their mouth.",
+        "After shaking stops, roll them onto their side."
+      ],
+      "red_flags": [
+        "Seizure lasts longer than 5 minutes",
+        "Repeated seizures without waking up",
+        "Injury occurred during the fit"
+      ],
+      "audio": "seizure_en.mp3"
+    }
+  ]
+}
