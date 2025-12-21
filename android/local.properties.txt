@@ -1,1 +1,0 @@
-sdk.dir=C:\\Users\\mahmo\\AppData\\Local\\Android\\Sdk
