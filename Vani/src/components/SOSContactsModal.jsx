@@ -129,6 +129,12 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
                         Enter a valid phone number
                       </Text>
                     )}
+
+                    {duplicateError && (
+                      <Text style={styles.error}>
+                        Duplicate phone numbers found
+                      </Text>
+                    )}
                   </View>
 
                   <TouchableOpacity
@@ -142,10 +148,6 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
               </View>
             );
           })}
-
-          {duplicateError && (
-            <Text style={styles.error}>Try different number</Text>
-          )}
 
           <TouchableOpacity style={styles.save} onPress={handleSave}>
             <Text style={styles.saveText}>Save</Text>
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-    marginBottom: 20
+    marginBottom: 20,
   },
   input: {
     borderWidth: 1.5,
