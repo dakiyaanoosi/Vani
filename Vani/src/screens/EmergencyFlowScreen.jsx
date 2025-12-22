@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  AppState,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -60,6 +61,18 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
 
     return () => {
       finishedListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState.match(/inactive|background/)) {
+        stopAudio();
+      }
+    });
+
+    return () => {
+      subscription.remove();
     };
   }, []);
 

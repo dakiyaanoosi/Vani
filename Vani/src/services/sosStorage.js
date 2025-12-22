@@ -14,7 +14,7 @@ export const saveContacts = async contacts => {
 
 export const loadMessage = async () => {
   const data = await AsyncStorage.getItem(MESSAGE_KEY);
-  return data || 'I am in danger. Please help me immediately.';
+  return data || "SOS! HELP ME! IT'S AN EMERGENCY.";
 };
 
 export const saveMessage = async message => {

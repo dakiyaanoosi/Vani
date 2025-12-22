@@ -13,30 +13,45 @@ import Icon from 'react-native-vector-icons/Feather';
 const MAX = 3;
 const isValidPhone = phone => /^[0-9]{7,15}$/.test(phone);
 
+const normalizePhone = phone => {
+  const clean = phone.replace(/[^0-9]/g, '');
+
+  if (clean.length === 12 && clean.startsWith('91')) {
+    return clean.substring(2);
+  }
+
+  return clean;
+};
+
 const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
   const [local, setLocal] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [duplicateError, setDuplicateError] = useState(false);
 
   useEffect(() => {
     setLocal(contacts);
     setSubmitted(false);
+    setDuplicateError(false);
   }, [contacts, visible]);
 
   const addContact = () => {
     if (local.length >= MAX) return;
     setLocal([...local, { name: '', phone: '' }]);
+    setDuplicateError(false);
   };
 
   const update = (index, key, value) => {
     const copy = [...local];
     copy[index][key] = value;
     setLocal(copy);
+    setDuplicateError(false);
   };
 
   const remove = index => {
     const copy = [...local];
     copy.splice(index, 1);
     setLocal(copy);
+    setDuplicateError(false);
   };
 
   const hasErrors = () =>
@@ -47,7 +62,17 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
 
   const handleSave = () => {
     setSubmitted(true);
+    setDuplicateError(false);
+
     if (hasErrors()) return;
+
+    const normalizedNumbers = local.map(c => normalizePhone(c.phone));
+    const uniqueNumbers = new Set(normalizedNumbers);
+
+    if (uniqueNumbers.size !== normalizedNumbers.length) {
+      setDuplicateError(true);
+      return;
+    }
 
     onSave(local);
     onClose();
@@ -118,6 +143,10 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
             );
           })}
 
+          {duplicateError && (
+            <Text style={styles.error}>Try different number</Text>
+          )}
+
           <TouchableOpacity style={styles.save} onPress={handleSave}>
             <Text style={styles.saveText}>Save</Text>
           </TouchableOpacity>
@@ -149,9 +178,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 12,
-  },
-  contactBlock: {
-    marginBottom: 20,
   },
   row: {
     flexDirection: 'row',
@@ -192,6 +218,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingVertical: 12,
     backgroundColor: '#000',
+    marginTop: 20,
   },
   saveText: {
     color: '#fff',

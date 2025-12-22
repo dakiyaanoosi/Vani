@@ -7,6 +7,7 @@ import {
   Alert,
   Keyboard,
   Pressable,
+  Linking,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
