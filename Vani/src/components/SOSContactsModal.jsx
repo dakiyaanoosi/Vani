@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
+    marginBottom: 20
   },
   input: {
     borderWidth: 1.5,
@@ -218,7 +219,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingVertical: 12,
     backgroundColor: '#000',
-    marginTop: 20,
   },
   saveText: {
     color: '#fff',

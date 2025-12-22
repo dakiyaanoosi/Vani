@@ -83,7 +83,7 @@ export default GlobalNavbar;
 const styles = StyleSheet.create({
   container: {
     height: 90,
-    backgroundColor: '#220000',
+    backgroundColor: '#220000bb',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
