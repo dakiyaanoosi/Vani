@@ -9,7 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 
-const DEFAULT_MESSAGE = 'I am in danger. Please help me immediately.';
+const DEFAULT_MESSAGE = "SOS! HELP ME! IT'S AN EMERGENCY.";
 const LIMIT = 200;
 
 const SOSMessageModal = ({ visible, onClose, message, onSave }) => {

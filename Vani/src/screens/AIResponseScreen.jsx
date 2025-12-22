@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon2 from 'react-native-vector-icons/Feather';
 import Call112Button from '../components/Call112Button';
 
 import { GEMINI_RESPONSE_API_KEY } from '@env';
@@ -239,6 +240,18 @@ const AIResponseScreen = ({ navigation, route }) => {
           <Icon name="keyboard-backspace" size={28} color="#fff" />
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={styles.hospitalButton}
+          onPress={() => {
+            Linking.openURL(
+              'https://www.google.com/maps/search/?api=1&query=nearby+hospital',
+            );
+          }}
+        >
+          <Icon2 name="external-link" size={18} color="#fff" />
+          <Text style={styles.audioText}>Nearby Hospitals</Text>
+        </TouchableOpacity>
+
         <Call112Button />
       </View>
 
@@ -275,11 +288,7 @@ const AIResponseScreen = ({ navigation, route }) => {
                 {msg.data.red_flags?.length > 0 && (
                   <View style={styles.alertBox}>
                     <View style={styles.alertHeader}>
-                      <Icon
-                        name="warning-amber"
-                        size={18}
-                        color="#ff4d4d"
-                      />
+                      <Icon name="warning-amber" size={18} color="#ff4d4d" />
                       <Text style={styles.alertTitle}>Emergency Warning</Text>
                     </View>
 
@@ -334,7 +343,7 @@ const styles = StyleSheet.create({
   userBubble: {
     backgroundColor: '#134d37',
     padding: 14,
-    borderRadius: 14,
+    borderRadius: 12,
     maxWidth: '80%',
   },
   userText: { color: '#fff', fontSize: 16, lineHeight: 22 },
@@ -392,6 +401,26 @@ const styles = StyleSheet.create({
   title: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: '600',
+  },
+
+  hospitalButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: '#777',
+    borderRadius: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+
+  audioText: {
+    color: '#fff',
+    marginLeft: 8,
+    fontSize: 14,
     fontWeight: '600',
   },
 });

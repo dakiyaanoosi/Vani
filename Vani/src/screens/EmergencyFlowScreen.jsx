@@ -5,9 +5,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon2 from 'react-native-vector-icons/Feather';
 import SoundPlayer from 'react-native-sound-player';
 
 import { useLanguage } from '../context/LanguageContext';
@@ -101,16 +103,30 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        <TouchableOpacity style={styles.audioButton} onPress={toggleAudio}>
-          <Icon
-            name={isPlaying ? 'pause' : 'play-arrow'}
-            size={22}
-            color="#fff"
-          />
-          <Text style={styles.audioText}>
-            {isPlaying ? 'Pause Audio' : 'Play Audio'}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.audioButton} onPress={toggleAudio}>
+            <Icon
+              name={isPlaying ? 'pause' : 'play-arrow'}
+              size={20}
+              color="#fff"
+            />
+            <Text style={styles.audioText}>
+              {isPlaying ? 'Pause Audio' : 'Play Audio'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.hospitalButton}
+            onPress={() => {
+              Linking.openURL(
+                'https://www.google.com/maps/search/?api=1&query=nearby+hospital',
+              );
+            }}
+          >
+            <Icon2 name="external-link" size={20} color="#fff" />
+            <Text style={styles.audioText}>Nearby Hospitals</Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Steps */}
         {emergency.steps.map((step, index) => (
@@ -175,7 +191,20 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: '#111',
     borderWidth: 1,
-    borderColor: '#ff4d4d',
+    borderColor: '#777',
+  },
+
+  hospitalButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom: 24,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 24,
+    backgroundColor: '#111',
+    borderWidth: 1,
+    borderColor: '#777',
   },
 
   audioText: {
@@ -249,5 +278,10 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });

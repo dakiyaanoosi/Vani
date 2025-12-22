@@ -22,7 +22,7 @@ const HelplineScreen = ({ navigation }) => {
           <Icon name="keyboard-backspace" size={28} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.title}>Helplines</Text>
-        <View style={{ width: 30 }} />
+        <View style={{ width: 50 }} />
       </View>
 
       <FlatList

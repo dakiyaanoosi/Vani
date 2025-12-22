@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Modal,
   Animated,
   Pressable,
+  Linking,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -62,6 +62,19 @@ const SideBar = ({
           >
             <Icon name="phone" size={18} color="#fff" />
             <Text style={styles.itemText}>Helplines</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.item}
+            onPress={() => {
+              onClose(); // close sidebar
+              Linking.openURL(
+                'https://www.google.com/maps/search/?api=1&query=nearby+hospital',
+              );
+            }}
+          >
+            <Icon name="external-link" size={18} color="#fff" />
+            <Text style={styles.itemText}>Nearby Hospitals</Text>
           </TouchableOpacity>
         </Animated.View>
       </Pressable>
