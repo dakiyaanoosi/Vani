@@ -1,4 +1,20 @@
-import { GEMINI_ROUTE_API_KEY } from '@env';
+import {
+  GEMINI_ROUTE_API_KEY_1,
+  GEMINI_ROUTE_API_KEY_2,
+  GEMINI_ROUTE_API_KEY_3,
+  GEMINI_ROUTE_API_KEY_4,
+  GEMINI_ROUTE_API_KEY_5,
+} from '@env';
+
+const API_KEYS = [
+  GEMINI_ROUTE_API_KEY_1,
+  GEMINI_ROUTE_API_KEY_2,
+  GEMINI_ROUTE_API_KEY_3,
+  GEMINI_ROUTE_API_KEY_4,
+  GEMINI_ROUTE_API_KEY_5,
+];
+
+let currentKeyIndex = 0;
 
 const ROUTER_SYSTEM_INSTRUCTION = `
 You are VANI_ROUTER, an emergency classification system.
@@ -38,9 +54,12 @@ FINAL RULE:
 `;
 
 export const classifyEmergencyWithGemini = async userInput => {
+  const currentKey = API_KEYS[currentKeyIndex];
+  currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.length;
+
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_ROUTE_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${currentKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

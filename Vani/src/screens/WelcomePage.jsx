@@ -67,13 +67,13 @@ export default function WelcomeFlow({ navigation }) {
         duration: 2000,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
-      })
+      }),
     ).start();
   }, []);
 
   const ringScale = pulseAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [1, 2.5],
+    outputRange: [1, 2],
   });
 
   const ringOpacity = pulseAnim.interpolate({
@@ -92,7 +92,6 @@ export default function WelcomeFlow({ navigation }) {
       pagerRef.current?.setPage(currentPage - 1);
     }
   };
-
 
   const handleSkipToContacts = async () => {
     try {
@@ -131,8 +130,11 @@ export default function WelcomeFlow({ navigation }) {
       <View style={styles.headerNav}>
         <View style={styles.navSide}>
           {currentPage > 0 && currentPage < 5 && (
-            <TouchableOpacity onPress={handleBack} style={styles.backButtonCircle}>
-              <ChevronLeft color="#FFF" size={28} strokeWidth={3} />
+            <TouchableOpacity
+              onPress={handleBack}
+              style={styles.backButtonCircle}
+            >
+              <ChevronLeft color="#FFF" size={16} strokeWidth={3} />
             </TouchableOpacity>
           )}
         </View>
@@ -148,12 +150,12 @@ export default function WelcomeFlow({ navigation }) {
         style={styles.pagerView}
         initialPage={0}
         ref={pagerRef}
-        onPageSelected={(e) => {
-           const pos = e.nativeEvent.position;
-           setCurrentPage(pos);
-           if(pos === 5) {
-             AsyncStorage.setItem('HAS_FINISHED_ONBOARDING', 'true');
-           }
+        onPageSelected={e => {
+          const pos = e.nativeEvent.position;
+          setCurrentPage(pos);
+          if (pos === 5) {
+            AsyncStorage.setItem('HAS_FINISHED_ONBOARDING', 'true');
+          }
         }}
       >
         {/* Slide 1 */}
@@ -164,7 +166,8 @@ export default function WelcomeFlow({ navigation }) {
             <Text style={styles.tagline}>Smart help, when seconds count.</Text>
             <View style={styles.separator} />
             <Text style={styles.subtext}>
-              Your ultimate safety net for emergencies and real-time first-aid guidance.
+              Your ultimate safety net for emergencies and real-time first-aid
+              guidance.
             </Text>
           </View>
         </View>
@@ -184,7 +187,8 @@ export default function WelcomeFlow({ navigation }) {
           </View>
           <Text style={styles.headline}>Instant SOS Alert</Text>
           <Text style={styles.subtext}>
-            One tap to notify your trusted contacts and emergency services immediately.
+            One tap to notify your trusted contacts and emergency services
+            immediately.
           </Text>
         </View>
 
@@ -194,33 +198,33 @@ export default function WelcomeFlow({ navigation }) {
           </View>
           <Text style={styles.headline}>Smart First-Aid</Text>
           <Text style={styles.subtext}>
-            Get step-by-step AI guidance for CPR, choking, or bleeding while help is on the way.
+            Get step-by-step AI guidance for CPR, choking, or bleeding while
+            help is on the way.
           </Text>
         </View>
 
-      
         <View key="4" style={styles.slide}>
           <View style={styles.iconCircle}>
             <PhoneCall color="#FF0000" size={45} strokeWidth={2.5} />
           </View>
           <Text style={styles.headline}>Direct Helplines</Text>
           <Text style={styles.subtext}>
-            Quick access to Police, Ambulance, and Fire services based on your current location.
+            Quick access to Police, Ambulance, and Fire services based on your
+            current location.
           </Text>
         </View>
 
-      
         <View key="5" style={styles.slide}>
           <View style={styles.iconCircle}>
             <Users color="#FF0000" size={50} strokeWidth={2.5} />
           </View>
           <Text style={styles.headline}>Trusted Contacts</Text>
           <Text style={styles.subtext}>
-            Add family and friends. We'll send them your live location if you're ever in danger.
+            Add family and friends. We'll send them your live location if you're
+            ever in danger.
           </Text>
         </View>
 
-       
         <View key="6" style={styles.slide}>
           <View style={styles.iconCircleLarge}>
             <UserPlus color="#FF0000" size={40} />
@@ -231,11 +235,11 @@ export default function WelcomeFlow({ navigation }) {
           </Text>
 
           <TouchableOpacity
-            style={[styles.mainBtn, { marginTop: 40 }]}
+            style={[styles.mainBtn, { marginTop: 20 }]}
             onPress={() => setShowModal(true)}
             activeOpacity={0.85}
           >
-            <Text style={styles.btnText}>ADD EMERGENCY CONTACTS</Text>
+            <Text style={styles.btnText}>Add Emergency Contacts</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -251,14 +255,14 @@ export default function WelcomeFlow({ navigation }) {
       {currentPage < 5 && (
         <View style={styles.footer}>
           <View style={styles.dotContainer}>
-            {[0, 1, 2, 3, 4, 5].map((i) => (
+            {[0, 1, 2, 3, 4, 5].map(i => (
               <View
                 key={i}
                 style={[
                   styles.dot,
                   {
                     backgroundColor: currentPage === i ? '#FF0000' : '#333',
-                    width: currentPage === i ? 28 : 8,
+                    width: currentPage === i ? 24 : 8,
                   },
                 ]}
               />
@@ -266,7 +270,7 @@ export default function WelcomeFlow({ navigation }) {
           </View>
 
           <TouchableOpacity style={styles.mainBtn} onPress={handleNext}>
-            <Text style={styles.btnText}>CONTINUE</Text>
+            <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -275,7 +279,7 @@ export default function WelcomeFlow({ navigation }) {
         visible={showModal}
         contacts={[]}
         onClose={() => setShowModal(false)}
-        onSave={(contacts) => finalizeOnboarding(contacts)}
+        onSave={contacts => finalizeOnboarding(contacts)}
       />
     </View>
   );
@@ -297,42 +301,66 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.08)',
     width: 45,
     height: 45,
-    borderRadius: 25,
+    borderRadius: '50%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   navSide: { width: 50 },
   skipText: { color: '#666', fontSize: 16, fontWeight: '600' },
   pagerView: { flex: 1 },
-  slide: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 30 },
-  logoImage: { width: width * 0.65, height: width * 0.45, marginBottom: 20 },
-  textContainer: { alignItems: 'center', marginTop: 10 },
-  headline: { color: '#FFF', fontSize: 32, fontWeight: '900', textAlign: 'center' },
-  tagline: { color: '#FF3B30', fontSize: 16, fontWeight: '700', marginTop: 8 },
-  separator: { height: 2, width: 30, backgroundColor: '#333', marginVertical: 20 },
-  subtext: { color: '#999', fontSize: 17, textAlign: 'center', lineHeight: 25 },
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 30,
+  },
+  logoImage: { width: width * 0.65, height: width * 0.45 },
+  textContainer: { alignItems: 'center' },
+  headline: {
+    color: '#FFF',
+    fontSize: 26,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  tagline: { color: '#FF3B30', fontSize: 15, fontWeight: '500' },
+  separator: {
+    height: 2,
+    width: 30,
+    backgroundColor: '#333',
+    marginVertical: 12,
+  },
+  subtext: { color: '#999', fontSize: 15, textAlign: 'center', lineHeight: 25 },
   footer: { paddingBottom: 50, alignItems: 'center' },
   dotContainer: { flexDirection: 'row', marginBottom: 30 },
   dot: { height: 6, borderRadius: 3, marginHorizontal: 4 },
   mainBtn: {
     backgroundColor: '#FF0000',
-    width: width * 0.85,
-    height: 64,
-    borderRadius: 20,
+    width: width * 0.8,
+    height: 48,
+    borderRadius: 48,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 4,
   },
-  btnText: { color: '#FFF', fontSize: 16, fontWeight: '800', letterSpacing: 1.2 },
-  sosContainer: { width: 220, height: 220, justifyContent: 'center', alignItems: 'center', marginBottom: 20 },
-  pulseRing: { position: 'absolute', width: 130, height: 130, borderRadius: 65, backgroundColor: '#FF0000' },
-  sosOuterCircle: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 0, 0, 0.2)',
+  btnText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    letterSpacing: 1.2,
+  },
+  sosContainer: {
+    width: 220,
+    height: 220,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 20,
+  },
+  pulseRing: {
+    position: 'absolute',
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    backgroundColor: '#FF0000',
   },
   sosButton: {
     width: 115,
@@ -347,12 +375,9 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: 'rgba(255, 0, 0, 0.05)',
     borderWidth: 1.5,
-    borderColor: 'rgba(255, 0, 0, 0.15)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 30,
   },
   iconCircleLarge: {
     width: 100,
@@ -363,6 +388,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
   },
-  footerLink: { marginTop: 25, padding: 10 },
+  footerLink: { marginTop: 12.5 },
   footerText: { color: '#666', fontSize: 16, fontWeight: '600' },
 });

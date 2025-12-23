@@ -1,3 +1,11 @@
+import {
+  GEMINI_RESPONSE_API_KEY_1,
+  GEMINI_RESPONSE_API_KEY_2,
+  GEMINI_RESPONSE_API_KEY_3,
+  GEMINI_RESPONSE_API_KEY_4,
+  GEMINI_RESPONSE_API_KEY_5,
+} from '@env';
+
 import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
@@ -6,12 +14,21 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Feather';
 import Call112Button from '../components/Call112Button';
 
-import { GEMINI_RESPONSE_API_KEY } from '@env';
+const API_KEYS = [
+  GEMINI_RESPONSE_API_KEY_1,
+  GEMINI_RESPONSE_API_KEY_2,
+  GEMINI_RESPONSE_API_KEY_3,
+  GEMINI_RESPONSE_API_KEY_4,
+  GEMINI_RESPONSE_API_KEY_5,
+];
+
+let currentKeyIndex = 0;
 
 const SYSTEM_INSTRUCTION = `
 You are Vani AI, a health, medical, and emergency assistance AI.
@@ -43,11 +60,11 @@ Classify the user's query into ONE category:
 1. EMERGENCY / ACTIONABLE  
    Immediate step-by-step guidance is required.
 
-2. HEALTH / MEDICAL INFORMATION  
+2. HEALTH / MEDICAL / FITNESS INFORMATION  
    The user wants a definition, explanation, symptoms, causes, or basic help.
 
 3. OUTSIDE SCOPE  
-   Not related to health, safety or emergency.
+   Not related to health, safety, emergency, fitness or medical questions.
 
 ========================
 RESPONSE RULES
@@ -56,7 +73,7 @@ RESPONSE RULES
 ▶ CASE 1: EMERGENCY / ACTIONABLE  
 Return FORMAT A (structured JSON).
 
-▶ CASE 2: HEALTH / MEDICAL INFORMATION  
+▶ CASE 2: HEALTH / MEDICAL / FITNESS INFORMATION
 Return FORMAT B with a SHORT, SIMPLE explanation.
 
 ▶ CASE 3: OUTSIDE SCOPE  
@@ -133,11 +150,14 @@ const AIResponseScreen = ({ navigation, route }) => {
   const scrollRef = useRef(null);
 
   const fetchAIResponse = async userQuery => {
+    const currentKey = API_KEYS[currentKeyIndex];
+    currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.length;
+
     try {
       setLoading(true);
 
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_RESPONSE_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${currentKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -244,7 +264,7 @@ const AIResponseScreen = ({ navigation, route }) => {
           style={styles.hospitalButton}
           onPress={() => {
             Linking.openURL(
-              'https://www.google.com/maps/search/?api=1&query=nearby+hospital',
+              'https://www.google.com/maps/search/?api=1&query=nearby+hospitals',
             );
           }}
         >

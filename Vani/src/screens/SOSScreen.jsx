@@ -114,7 +114,7 @@ const SOSScreen = ({ navigation }) => {
               style={styles.iconHitSlop}
               onPress={() => {
                 Linking.openURL(
-                  'https://www.google.com/maps/search/?api=1&query=nearby+hospital',
+                  'https://www.google.com/maps/search/?api=1&query=nearby+hospitals',
                 );
               }}
             >

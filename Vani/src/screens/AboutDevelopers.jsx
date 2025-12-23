@@ -10,9 +10,10 @@ import {
   ScrollView,
   Platform,
   StatusBar,
-  Alert
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
 const DEVELOPERS = [
   {
@@ -24,20 +25,20 @@ const DEVELOPERS = [
   {
     name: 'Mahmoodul Hassan',
     email: 'mahmoodulh722@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/mahmoodul-hassan',
+    linkedin: 'https://www.linkedin.com/in/mahmoodul-hassan-68672832b',
     github: 'https://github.com/hazforu',
-  }
+  },
 ];
 
 const SocialRow = ({ icon, label, value, url }) => {
   const handlePress = () => {
     if (!url || url === '#') return;
 
-    Linking.openURL(url).catch((err) => {
-      console.error("Failed to open URL:", err);
+    Linking.openURL(url).catch(err => {
+      console.error('Failed to open URL:', err);
       Alert.alert(
-        "Link Error",
-        "Could not open this link. Make sure the relevant app is installed."
+        'Link Error',
+        'Could not open this link. Make sure the relevant app is installed.',
       );
     });
   };
@@ -54,9 +55,11 @@ const SocialRow = ({ icon, label, value, url }) => {
       </View>
       <View style={styles.contentWrapper}>
         <Text style={styles.rowLabel}>{label}</Text>
-        <Text style={styles.rowValue} numberOfLines={1}>{value}</Text>
+        <Text style={styles.rowValue} numberOfLines={1}>
+          {value}
+        </Text>
       </View>
-      <Icon name="arrow-up-right" size={14} color="#444" />
+      <Icon name="arrow-up-right" size={16} color="#444" />
     </TouchableOpacity>
   );
 };
@@ -64,19 +67,24 @@ const SocialRow = ({ icon, label, value, url }) => {
 const AboutDevelopers = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      <StatusBar
+        barStyle="light-content"
+        translucent
+        backgroundColor="transparent"
+      />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.header}>
+        <View style={styles.topBar}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={styles.backButton}
+            style={styles.iconHit}
           >
-            <Icon name="chevron-left" size={28} color="#fff" />
+            <Icon2 name="keyboard-backspace" size={28} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.title}>About Developers</Text>
+          <Text style={styles.title}>Developers</Text>
+          <View style={{ width: 50 }} />
         </View>
 
         {DEVELOPERS.map((dev, index) => (
@@ -107,10 +115,7 @@ const AboutDevelopers = ({ navigation }) => {
           </View>
         ))}
 
-        <Text style={styles.versionText}>
-          {`Vani v${version}`}
-        </Text>
-
+        <Text style={styles.versionText}>{`Vani v${version}`}</Text>
       </ScrollView>
     </View>
   );
@@ -121,29 +126,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#050505',
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 30,
-    marginTop: Platform.OS === 'ios' ? 20 : 10,
-  },
-  backButton: {
-    paddingRight: 10,
-    paddingVertical: 5,
-  },
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
     paddingBottom: 40,
-  },
-  title: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: '800',
-    letterSpacing: -0.5,
   },
   section: {
     marginBottom: 30,
+    marginHorizontal: 20,
   },
   devName: {
     color: '#aaa',
@@ -195,6 +183,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 30,
     fontSize: 12,
+    fontWeight: '600',
+  },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    justifyContent: 'space-between',
+  },
+
+  iconHit: {
+    padding: 12,
+  },
+
+  title: {
+    color: '#fff',
+    fontSize: 18,
     fontWeight: '600',
   },
 });

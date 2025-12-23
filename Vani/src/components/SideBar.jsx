@@ -70,7 +70,7 @@ const SideBar = ({
             onPress={() => {
               onClose();
               Linking.openURL(
-                'https://www.google.com/maps/search/?api=1&query=nearby+hospital',
+                'https://www.google.com/maps/search/?api=1&query=nearby+hospitals',
               );
             }}
           >
@@ -86,7 +86,7 @@ const SideBar = ({
                 navigation.navigate('AboutDevelopers');
               }}
             >
-              <Icon name="info" size={16} color="#aaa" />
+              <Icon name="info" size={16} color="#999" />
               <Text style={styles.aboutText}>About Developers</Text>
             </TouchableOpacity>
           </View>
@@ -144,19 +144,19 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     borderTopWidth: 1,
     borderTopColor: '#222',
-    paddingTop: 18,
+    paddingTop: 8,
     paddingBottom: 10,
   },
 
   aboutItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 8,
     paddingVertical: 8,
   },
 
   aboutText: {
-    color: '#aaa',
-    fontSize: 14,
+    color: '#999',
+    fontSize: 12,
   },
 });
