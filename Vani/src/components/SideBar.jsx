@@ -7,6 +7,7 @@ import {
   Animated,
   Pressable,
   Linking,
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -67,7 +68,7 @@ const SideBar = ({
           <TouchableOpacity
             style={styles.item}
             onPress={() => {
-              onClose(); // close sidebar
+              onClose();
               Linking.openURL(
                 'https://www.google.com/maps/search/?api=1&query=nearby+hospital',
               );
@@ -76,6 +77,19 @@ const SideBar = ({
             <Icon name="external-link" size={18} color="#fff" />
             <Text style={styles.itemText}>Nearby Hospitals</Text>
           </TouchableOpacity>
+
+          <View style={styles.bottomSection}>
+            <TouchableOpacity
+              style={styles.aboutItem}
+              onPress={() => {
+                onClose();
+                navigation.navigate('AboutDevelopers');
+              }}
+            >
+              <Icon name="info" size={16} color="#aaa" />
+              <Text style={styles.aboutText}>About Developers</Text>
+            </TouchableOpacity>
+          </View>
         </Animated.View>
       </Pressable>
     </Modal>
@@ -123,5 +137,26 @@ const styles = StyleSheet.create({
   itemText: {
     color: '#fff',
     fontSize: 15,
+  },
+
+  /* ✅ NEW STYLES BELOW */
+  bottomSection: {
+    marginTop: 'auto',
+    borderTopWidth: 1,
+    borderTopColor: '#222',
+    paddingTop: 18,
+    paddingBottom: 10,
+  },
+
+  aboutItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 8,
+  },
+
+  aboutText: {
+    color: '#aaa',
+    fontSize: 14,
   },
 });

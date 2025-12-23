@@ -1,4 +1,8 @@
 {
   "name": "Vani",
-  "displayName": "Vani"
+  "displayName": "Vani",
+  "version": "1.1.0",           
+  "android": {
+    "versionCode": 1         
+  }
 }

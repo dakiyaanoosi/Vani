@@ -29,3 +29,19 @@ export const requestSMSPermission = async () => {
 
   return granted === PermissionsAndroid.RESULTS.GRANTED;
 };
+
+/* --------- CONTACTS (ONLY ADDITION) --------- */
+export const requestContactsPermission = async () => {
+  if (Platform.OS !== 'android') return true;
+
+  const granted = await PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+    {
+      title: 'Contacts Permission',
+      message: 'Vani needs access to your contacts for SOS alerts.',
+      buttonPositive: 'Allow',
+    },
+  );
+
+  return granted === PermissionsAndroid.RESULTS.GRANTED;
+};

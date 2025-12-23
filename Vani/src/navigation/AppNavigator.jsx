@@ -1,9 +1,9 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { View, StyleSheet, Keyboard } from 'react-native';
-
+import WelcomePage from '../screens/WelcomePage';
 import { Alert, Linking } from 'react-native';
+import AboutDevelopers from '../screens/AboutDevelopers';
 import {
   requestLocationPermission,
   hasLocationPermission,
@@ -50,8 +50,8 @@ export const navigationRef = createNavigationContainerRef();
 const AppNavigator = () => {
   const { language } = useLanguage();
   const { isOnline } = useNetwork();
-  const isOnSOSScreen = currentRoute === 'SOS';
   const [currentRoute, setCurrentRoute] = useState(null);
+  const isOnSOSScreen = currentRoute === 'SOS';
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -136,7 +136,9 @@ const AppNavigator = () => {
 
   return (
     <View style={styles.root}>
-      <GlobalNavbar onMenuPress={() => setSidebarOpen(true)} />
+      {currentRoute !== 'Welcome' && (
+        <GlobalNavbar onMenuPress={() => setSidebarOpen(true)} />
+      )}
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -153,6 +155,7 @@ const AppNavigator = () => {
             }}
           >
             <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Welcome" component={WelcomePage} />
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen
                 name="EmergencyFlow"
@@ -161,6 +164,7 @@ const AppNavigator = () => {
               <Stack.Screen name="AIResponse" component={AIResponseScreen} />
               <Stack.Screen name="SOS" component={SOSScreen} />
               <Stack.Screen name="Helplines" component={HelplineScreen} />
+              <Stack.Screen name="AboutDevelopers" component={AboutDevelopers} />
             </Stack.Navigator>
           </NavigationContainer>
         </View>
@@ -193,7 +197,9 @@ const AppNavigator = () => {
           }}
         />
 
-        <GlobalChatBar onSend={handleSend} disableSOS={isOnSOSScreen} />
+        {currentRoute !== 'Welcome' && (
+          <GlobalChatBar onSend={handleSend} disableSOS={isOnSOSScreen} />
+        )}
       </KeyboardAvoidingView>
     </View>
   );
