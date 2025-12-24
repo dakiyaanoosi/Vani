@@ -91,12 +91,6 @@ const styles = StyleSheet.create({
     paddingTop: '9%',
     borderBottomWidth: 1,
     borderBottomColor: '#330000',
-    borderBottomLeftRadius: '16%',
-    borderBottomRightRadius: '16%',
-    borderLeftWidth: 1,
-    borderLeftColor: '#330000',
-    borderRightWidth: 1,
-    borderLRightColor: '#330000',
   },
 
   title: {
