@@ -4,16 +4,6 @@
     {
       "id": "severe_bleeding",
       "title": "Severe Bleeding",
-      "keywords": [
-        "bleeding",
-        "blood",
-        "heavy bleeding",
-        "deep cut",
-        "lots of blood",
-        "blood loss",
-        "hemorrhage",
-        "stab wound"
-      ],
       "steps": [
         "Call emergency services immediately.",
         "Make the person lie down to prevent fainting.",
@@ -33,16 +23,6 @@
     {
       "id": "burns",
       "title": "Burns (Fire / Hot Liquid)",
-      "keywords": [
-        "burn",
-        "fire",
-        "hot liquid",
-        "scald",
-        "blister",
-        "skin burn",
-        "hot water",
-        "steam"
-      ],
       "steps": [
         "Move the person away from the heat source immediately.",
         "Cool the burn with cool running water for 20 minutes. (Crucial step).",
@@ -61,14 +41,6 @@
     {
       "id": "choking",
       "title": "Choking",
-      "keywords": [
-        "choking",
-        "can't breathe",
-        "food stuck",
-        "blocked throat",
-        "gasping",
-        "holding throat"
-      ],
       "steps": [
         "Ask 'Are you choking?'. If they cannot speak or cough, act immediately.",
         "Stand behind them and lean them slightly forward.",
@@ -87,15 +59,6 @@
     {
       "id": "snake_bite",
       "title": "Snake Bite",
-      "keywords": [
-        "snake bite",
-        "bitten by snake",
-        "venom",
-        "poison",
-        "cobra",
-        "viper",
-        "snake attack"
-      ],
       "steps": [
         "Move away from the snake immediately.",
         "Keep the person completely calm and still. Movement spreads venom.",
@@ -114,14 +77,6 @@
     {
       "id": "electric_shock",
       "title": "Electric Shock",
-      "keywords": [
-        "electric shock",
-        "electrocuted",
-        "current",
-        "live wire",
-        "shock",
-        "electricity"
-      ],
       "steps": [
         "Do NOT touch the person if they are still in contact with the power source.",
         "Turn off the main power source immediately.",
@@ -139,14 +94,6 @@
     {
       "id": "fracture",
       "title": "Fracture / Broken Bone",
-      "keywords": [
-        "fracture",
-        "broken bone",
-        "bone stick out",
-        "snap sound",
-        "leg pain",
-        "arm pain"
-      ],
       "steps": [
         "Do not move the person unless they are in immediate danger.",
         "Support the injured limb with padding to prevent movement.",
@@ -164,14 +111,6 @@
     {
       "id": "unconscious",
       "title": "Unconscious Person",
-      "keywords": [
-        "unconscious",
-        "fainted",
-        "passed out",
-        "collapsed",
-        "not waking up",
-        "faint"
-      ],
       "steps": [
         "Check surroundings for danger.",
         "Shake shoulders gently and shout to check response.",
@@ -190,14 +129,6 @@
     {
       "id": "seizure",
       "title": "Seizure / Fits",
-      "keywords": [
-        "seizure",
-        "fits",
-        "epilepsy",
-        "shaking",
-        "jerking",
-        "convulsion"
-      ],
       "steps": [
         "Note the start time of the seizure.",
         "Clear the area of hard objects to prevent injury.",

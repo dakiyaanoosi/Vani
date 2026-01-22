@@ -24,7 +24,6 @@ import GlobalNavbar from '../components/GlobalNavbar';
 import GlobalChatBar from '../components/GlobalChatBar';
 
 import { useLanguage } from '../context/LanguageContext';
-import { findEmergencyByKeyword } from '../services/offlineDB';
 import { classifyEmergencyWithGemini } from '../services/geminiRouter';
 import { useNetwork } from '../context/NetworkContext';
 import SOSScreen from '../screens/SOSScreen';
@@ -108,15 +107,6 @@ const AppNavigator = () => {
     if (!navigationRef.isReady()) return;
 
     Keyboard.dismiss();
-
-    const offlineMatch = findEmergencyByKeyword(prompt, language);
-
-    if (offlineMatch) {
-      navigationRef.navigate('EmergencyFlow', {
-        emergencyId: offlineMatch.id,
-      });
-      return;
-    }
 
     if (!isOnline) {
       navigationRef.navigate('AIResponse', { prompt });

@@ -4,15 +4,6 @@
     {
       "id": "severe_bleeding",
       "title": "প্রচুর রক্তপাত (Severe Bleeding)",
-      "keywords": [
-        "rokto",
-        "kete geche",
-        "bleeding",
-        "khoto",
-        "accident",
-        "blood",
-        "rokto porche"
-      ],
       "steps": [
         "অবিলম্বে এম্বুলেন্স ডাকুন।",
         "একটি পরিষ্কার কাপড় দিয়ে ক্ষতের উপর জোরে চেপে ধরুন।",
@@ -31,14 +22,6 @@
     {
       "id": "burns",
       "title": "পুড়ে যাওয়া (Burns)",
-      "keywords": [
-        "pure geche",
-        "agun",
-        "gorom jol",
-        "burn",
-        "foshka",
-        "chaka"
-      ],
       "steps": [
         "রোগীকে আগুনের উৎস থেকে সরিয়ে নিন।",
         "পোড়া জায়গায় ২০ মিনিট ধরে ঠান্ডা জল ঢালুন।",
@@ -57,7 +40,6 @@
     {
       "id": "choking",
       "title": "গলায় কিছু আটকানো (Choking)",
-      "keywords": ["gola", "khabar atke", "choking", "shash kosto", "kashi"],
       "steps": [
         "কথা বলতে না পারলে সাহায্য করুন।",
         "পিছন দিকে দাঁড়িয়ে রোগীকে একটু সামনের দিকে ঝুঁকিয়ে দিন।",
@@ -72,7 +54,6 @@
     {
       "id": "snake_bite",
       "title": "সাপে কামড়ানো (Snake Bite)",
-      "keywords": ["shap", "shaap", "kamreche", "snake bite", "bish", "chobol"],
       "steps": [
         "সাপের থেকে দূরে সরে যান।",
         "রোগীকে একদম নড়াচড়া করতে দেবেন না।",
@@ -91,14 +72,6 @@
     {
       "id": "electric_shock",
       "title": "ইলেকট্রিক শক (Electric Shock)",
-      "keywords": [
-        "shock",
-        "current",
-        "tar",
-        "bijli",
-        "electric",
-        "current legeche"
-      ],
       "steps": [
         "রোগী কারেন্টের তার ছুঁয়ে থাকলে তাকে ধরবেন না।",
         "মেইন সুইচ (Main Switch) অবিলম্বে বন্ধ করুন।",
@@ -116,13 +89,6 @@
     {
       "id": "fracture",
       "title": "হাড় ভাঙা (Fracture)",
-      "keywords": [
-        "har bhanga",
-        "fracture",
-        "mochkano",
-        "bhenge geche",
-        "pa bhanga"
-      ],
       "steps": [
         "বিপদ না থাকলে রোগীকে নড়াবেন না।",
         "বালিশ দিয়ে ভাঙা জায়গাটিকে সাপোর্ট দিন।",
@@ -140,14 +106,6 @@
     {
       "id": "unconscious",
       "title": "অজ্ঞান ব্যক্তি (Unconscious)",
-      "keywords": [
-        "oggyan",
-        "fit",
-        "pore geche",
-        "behosh",
-        "faint",
-        "unconscious"
-      ],
       "steps": [
         "কাঁধ ধরে জোরে ডাকুন।",
         "সাড়া না দিলে, মাথা পিছিয়ে শ্বাসনালী খুলে দিন।",
@@ -165,14 +123,6 @@
     {
       "id": "seizure",
       "title": "খিঁচুনি / মৃগী (Seizure)",
-      "keywords": [
-        "khichuni",
-        "mrigi",
-        "fit",
-        "kanpuni",
-        "seizure",
-        "epilepsy"
-      ],
       "steps": [
         "খিঁচুনি শুরুর সময় দেখুন।",
         "আশেপাশ থেকে ধারালো জিনিস সরিয়ে নিন।",

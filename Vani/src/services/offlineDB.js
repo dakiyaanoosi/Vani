@@ -15,19 +15,3 @@ export const getAllEmergencies = language => {
 export const getEmergencyById = (id, language) => {
   return trees[language].emergencies.find(item => item.id === id);
 };
-
-export const findEmergencyByKeyword = (text, language) => {
-  const input = text.toLowerCase();
-
-  return trees[language].emergencies.find(emergency => {
-    let score = 0;
-
-    emergency.keywords.forEach(keyword => {
-      if (input.includes(keyword.toLowerCase())) {
-        score += 1;
-      }
-    });
-
-    return score >= 2;
-  });
-};
