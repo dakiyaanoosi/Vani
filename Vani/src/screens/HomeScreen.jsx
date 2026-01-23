@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -7,15 +7,35 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import React, { useEffect, useState } from 'react';
+
 import { useLanguage } from '../context/LanguageContext';
 import { getAllEmergencies } from '../services/offlineDB';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { loadSavedAI } from '../services/aiStorage';
 
 const HomeScreen = () => {
   const { language } = useLanguage();
   const navigation = useNavigation();
 
-  const emergencies = getAllEmergencies(language);
+  const [aiEmergencies, setAiEmergencies] = useState([]);
+  useFocusEffect(
+    React.useCallback(() => {
+      let active = true;
+
+      (async () => {
+        const ai = await loadSavedAI();
+        if (active) setAiEmergencies(ai);
+      })();
+
+      return () => {
+        active = false;
+      };
+    }, []),
+  );
+
+  const systemEmergencies = getAllEmergencies(language);
+  const emergencies = [...systemEmergencies, ...aiEmergencies];
 
   return (
     <View style={styles.container}>
@@ -31,10 +51,15 @@ const HomeScreen = () => {
             onPress={() =>
               navigation.navigate('EmergencyFlow', {
                 emergencyId: item.id,
+                source: item.type || 'system',
               })
             }
           >
-            <Text style={styles.cardText}>{item.title}</Text>
+            <Text style={styles.cardText}>
+              {item.title}
+              {item.type === 'ai' ? ' (AI)' : ''}
+            </Text>
+
             <Icon name="chevron-forward" size={20} color="#ccc" />
           </TouchableOpacity>
         )}
@@ -44,7 +69,6 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
-
 
 const styles = StyleSheet.create({
   container: {

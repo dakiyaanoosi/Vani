@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Linking,
   AppState,
+  Alert,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -17,12 +18,31 @@ import { useLanguage } from '../context/LanguageContext';
 import { getEmergencyById } from '../services/offlineDB';
 
 import Call112Button from '../components/Call112Button';
+import { loadSavedAI } from '../services/aiStorage';
+import { deleteSavedAI } from '../services/aiStorage';
 
 const EmergencyFlowScreen = ({ route, navigation }) => {
-  const { emergencyId } = route.params;
+  const { emergencyId, source } = route.params;
+
   const { language } = useLanguage();
 
-  const emergency = getEmergencyById(emergencyId, language);
+  const [emergency, setEmergency] = useState(null);
+
+  useEffect(() => {
+    const load = async () => {
+      if (source === 'ai') {
+        const ai = await loadSavedAI();
+        const found = ai.find(e => e.id === emergencyId);
+        setEmergency(found);
+      } else {
+        const sys = getEmergencyById(emergencyId, language);
+        setEmergency(sys);
+      }
+    };
+
+    load();
+  }, []);
+
   const [isPlaying, setIsPlaying] = useState(false);
 
   const audioKey = `${emergencyId}_${language}`;
@@ -49,6 +69,24 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
     } else {
       playAudio();
     }
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete saved response',
+      'Are you sure you want to delete this saved AI response?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            await deleteSavedAI(emergencyId);
+            navigation.goBack();
+          },
+        },
+      ],
+    );
   };
 
   useEffect(() => {
@@ -110,23 +148,28 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
           <Icon name="keyboard-backspace" size={28} color="#fff" />
         </TouchableOpacity>
 
-        <Text style={styles.title}>{emergency.title}</Text>
+        <Text style={styles.title}>
+          {emergency.title}
+          {source === 'ai' ? ' (AI)' : ''}
+        </Text>
 
         <Call112Button />
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.audioButton} onPress={toggleAudio}>
-            <Icon
-              name={isPlaying ? 'pause' : 'play-arrow'}
-              size={20}
-              color="#fff"
-            />
-            <Text style={styles.audioText}>
-              {isPlaying ? 'Pause Audio' : 'Play Audio'}
-            </Text>
-          </TouchableOpacity>
+          {source !== 'ai' && (
+            <TouchableOpacity style={styles.audioButton} onPress={toggleAudio}>
+              <Icon
+                name={isPlaying ? 'pause' : 'play-arrow'}
+                size={20}
+                color="#fff"
+              />
+              <Text style={styles.audioText}>
+                {isPlaying ? 'Pause Audio' : 'Play Audio'}
+              </Text>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity
             style={styles.hospitalButton}
@@ -139,6 +182,16 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
             <Icon2 name="external-link" size={20} color="#fff" />
             <Text style={styles.audioText}>Nearby Hospitals</Text>
           </TouchableOpacity>
+
+          {source === 'ai' && (
+            <TouchableOpacity
+              style={[styles.hospitalButton, styles.deleteButton]}
+              onPress={handleDelete}
+            >
+              <Icon name="delete" size={20} color="#ff4d4d" />
+              <Text style={[styles.audioText]}>Delete</Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Steps */}

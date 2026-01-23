@@ -20,6 +20,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Feather';
 import Call112Button from '../components/Call112Button';
 
+import { saveAIResponse, isAISaved } from '../services/aiStorage';
+
 const API_KEYS = [
   GEMINI_RESPONSE_API_KEY_1,
   GEMINI_RESPONSE_API_KEY_2,
@@ -87,6 +89,7 @@ Use ONLY when step-by-step guidance is appropriate.
 
 {
   "type": "structured",
+  "title": "Short emergency heading (e.g. Heat Stroke)",
   "steps": [
     "Short, clear step.",
     "One action per step.",
@@ -146,6 +149,8 @@ const AIResponseScreen = ({ navigation, route }) => {
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [savedMap, setSavedMap] = useState({});
 
   const scrollRef = useRef(null);
 
@@ -296,6 +301,48 @@ const AIResponseScreen = ({ navigation, route }) => {
           if (msg.data.type === 'structured') {
             return (
               <View key={index} style={styles.structuredWrapper}>
+                {/* Header Row (Title + Play Button) */}
+                <View style={styles.headerRow}>
+                  <Text style={styles.structuredTitle}>
+                    {msg.data.title || 'Emergency Guidance'}
+                  </Text>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.audioButton,
+                      savedMap[index] && { opacity: 0.5 },
+                    ]}
+                    disabled={savedMap[index]}
+                    onPress={async () => {
+                      const aiObj = {
+                        id: `ai_${Date.now()}`,
+                        type: 'ai',
+                        title: msg.data.title,
+                        steps: msg.data.steps,
+                        red_flags: msg.data.red_flags || [],
+                        language: 'frozen',
+                        savedAt: Date.now(),
+                      };
+
+                      await saveAIResponse(aiObj);
+
+                      setSavedMap(prev => ({
+                        ...prev,
+                        [index]: true,
+                      }));
+                    }}
+                  >
+                    <Icon
+                      name={savedMap[index] ? 'check' : 'download'}
+                      size={18}
+                      color="#fff"
+                    />
+                    <Text style={styles.audioText}>
+                      {savedMap[index] ? 'Saved Offline' : 'Save Offline'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
                 {msg.data.steps.map((step, i) => (
                   <View key={i} style={styles.stepItem}>
                     <View style={styles.stepNumber}>
@@ -346,6 +393,7 @@ export default AIResponseScreen;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
+
   header: {
     padding: 16,
     flexDirection: 'row',
@@ -354,6 +402,37 @@ const styles = StyleSheet.create({
   },
 
   content: { padding: 16, paddingBottom: 120 },
+
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+
+  structuredTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+
+  audioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 24,
+    backgroundColor: '#111',
+    borderWidth: 1,
+    borderColor: '#777',
+  },
+
+  audioText: {
+    color: '#fff',
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: '600',
+  },
 
   userRow: {
     flexDirection: 'row',
@@ -435,12 +514,5 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 12,
     paddingVertical: 6,
-  },
-
-  audioText: {
-    color: '#fff',
-    marginLeft: 8,
-    fontSize: 14,
-    fontWeight: '600',
   },
 });
