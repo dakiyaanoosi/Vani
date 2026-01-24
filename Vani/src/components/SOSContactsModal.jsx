@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
+import { loadContacts } from '../services/sosStorage';
+
 const MAX = 3;
 const isValidPhone = phone => /^[0-9]{7,15}$/.test(phone);
 
@@ -27,6 +29,18 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
   const [local, setLocal] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [duplicateError, setDuplicateError] = useState(false);
+
+  useEffect(() => {
+    if (visible) {
+      const fetchContacts = async () => {
+        const storedContacts = await loadContacts();
+        setLocal(storedContacts || []);
+        setSubmitted(false);
+        setDuplicateError(false);
+      };
+      fetchContacts();
+    }
+  }, [visible]);
 
   useEffect(() => {
     setLocal(contacts);
@@ -86,7 +100,7 @@ const SOSContactsModal = ({ visible, onClose, contacts, onSave }) => {
             <Text style={styles.title}>Emergency Contacts</Text>
             {local.length < MAX && (
               <TouchableOpacity style={styles.title} onPress={addContact}>
-                <Icon name="user-plus" size={18} color="#fff" />
+                <Icon name="plus" size={24} color="#fff" />
               </TouchableOpacity>
             )}
           </View>

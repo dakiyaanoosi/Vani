@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   Modal,
@@ -9,6 +8,8 @@ import {
   Pressable,
 } from 'react-native';
 
+import { loadMessage } from '../services/sosStorage';
+
 const DEFAULT_MESSAGE = "SOS! HELP ME! IT'S AN EMERGENCY.";
 const LIMIT = 200;
 
@@ -16,12 +17,26 @@ const SOSMessageModal = ({ visible, onClose, message, onSave }) => {
   const [text, setText] = useState('');
 
   useEffect(() => {
+    if (visible) {
+      const fetchLatest = async () => {
+        const savedMsg = await loadMessage();
+        setText(savedMsg || DEFAULT_MESSAGE);
+      };
+      fetchLatest();
+    }
+  }, [visible]);
+
+  useEffect(() => {
     setText(message || DEFAULT_MESSAGE);
   }, [message]);
 
   const handleSave = () => {
-    const finalMessage =
-      text.trim().length === 0 ? DEFAULT_MESSAGE : text.trim();
+    const cleanText = text
+      .split('\n')
+      .map(line => line.trim().replace(/\s+/g, ' '))
+      .filter(line => line.length > 0)
+      .join('\n');
+    const finalMessage = cleanText.length === 0 ? DEFAULT_MESSAGE : cleanText;
 
     onSave(finalMessage);
     onClose();
@@ -82,6 +97,7 @@ const styles = StyleSheet.create({
   },
   input: {
     minHeight: 120,
+    maxHeight: 200,
     borderWidth: 1.5,
     borderColor: '#222',
     borderRadius: 12,
