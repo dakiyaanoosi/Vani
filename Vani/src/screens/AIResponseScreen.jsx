@@ -204,8 +204,6 @@ const AIResponseScreen = ({ navigation, route }) => {
       const data = await res.json();
       const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-      console.log(rawText);
-
       if (!rawText || rawText.trim().length === 0) {
         handleError(SCOPE_FALLBACK_MESSAGE);
         return;
