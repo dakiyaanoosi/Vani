@@ -62,7 +62,7 @@ const GlobalChatBar = ({ onSend, disableSOS = false }) => {
       >
         <View style={styles.row}>
           <TouchableOpacity
-            style={[styles.sosButton, disableSOS && styles.sosButtonDisabled]}
+            style={[styles.sosButton, disableSOS]}
             onPress={() => !disableSOS && onSend?.('__SOS__')}
             activeOpacity={disableSOS ? 1 : 0.7}
           >
@@ -261,10 +261,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: '400',
-  },
-
-  sosButtonDisabled: {
-    opacity: 0.4,
   },
 
   iconHitSlop: {

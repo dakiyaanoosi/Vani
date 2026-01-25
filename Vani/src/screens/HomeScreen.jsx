@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 
 import React, { useEffect, useState } from 'react';
-
 import { useLanguage } from '../context/LanguageContext';
 import { getAllEmergencies } from '../services/offlineDB';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -17,17 +16,15 @@ import { loadSavedAI } from '../services/aiStorage';
 const HomeScreen = () => {
   const { language } = useLanguage();
   const navigation = useNavigation();
-
   const [aiEmergencies, setAiEmergencies] = useState([]);
+
   useFocusEffect(
     React.useCallback(() => {
       let active = true;
-
       (async () => {
         const ai = await loadSavedAI();
         if (active) setAiEmergencies(ai);
       })();
-
       return () => {
         active = false;
       };
@@ -36,6 +33,13 @@ const HomeScreen = () => {
 
   const systemEmergencies = getAllEmergencies(language);
   const emergencies = [...systemEmergencies, ...aiEmergencies];
+
+  const getTitle = item => {
+    if (item.type === 'ai' && item.titles) {
+      return item.titles[language] || item.titles['en'] || 'Saved Guide';
+    }
+    return item.title;
+  };
 
   return (
     <View style={styles.container}>
@@ -56,8 +60,15 @@ const HomeScreen = () => {
             }
           >
             <Text style={styles.cardText}>
-              {item.title}
-              {item.type === 'ai' ? ' (AI)' : ''}
+              {getTitle(item)}
+              {item.type === 'ai' ? (
+                <Text style={{ fontWeight: 800 }}>
+                  <Text style={{ color: '#777' }}>&nbsp; ● </Text>
+                  <Text style={{ color: '#777' }}>AI</Text>
+                </Text>
+              ) : (
+                ''
+              )}
             </Text>
 
             <Icon name="chevron-forward" size={20} color="#ccc" />
@@ -76,7 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     paddingHorizontal: 16,
   },
-
   heading: {
     color: '#fff',
     fontSize: 24,
@@ -84,11 +94,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 20,
   },
-
   list: {
     paddingBottom: 120,
   },
-
   card: {
     backgroundColor: '#111',
     padding: 16,
@@ -98,9 +106,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-
   cardText: {
     color: '#fff',
     fontSize: 16,
+    flex: 1,
+    marginRight: 10,
   },
 });

@@ -8,32 +8,37 @@ import {
   Linking,
   AppState,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Feather';
 import SoundPlayer from 'react-native-sound-player';
-
 import { useLanguage } from '../context/LanguageContext';
 import { getEmergencyById } from '../services/offlineDB';
-
 import Call112Button from '../components/Call112Button';
-import { loadSavedAI } from '../services/aiStorage';
-import { deleteSavedAI } from '../services/aiStorage';
+import { loadSavedAI, deleteSavedAI } from '../services/aiStorage';
 
 const EmergencyFlowScreen = ({ route, navigation }) => {
   const { emergencyId, source } = route.params;
-
   const { language } = useLanguage();
-
   const [emergency, setEmergency] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const load = async () => {
       if (source === 'ai') {
         const ai = await loadSavedAI();
         const found = ai.find(e => e.id === emergencyId);
-        setEmergency(found);
+
+        if (found) {
+          setEmergency({
+            title: found.titles[language] || found.titles['en'],
+            steps: found.steps[language] || found.steps['en'],
+            red_flags: found.red_flags
+              ? found.red_flags[language] || found.red_flags['en']
+              : [],
+          });
+        }
       } else {
         const sys = getEmergencyById(emergencyId, language);
         setEmergency(sys);
@@ -41,13 +46,12 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
     };
 
     load();
-  }, []);
-
-  const [isPlaying, setIsPlaying] = useState(false);
+  }, [language, emergencyId, source]);
 
   const audioKey = `${emergencyId}_${language}`;
 
   const playAudio = () => {
+    if (source === 'ai') return;
     try {
       SoundPlayer.playSoundFile(audioKey, 'mp3');
       setIsPlaying(true);
@@ -64,12 +68,29 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
   };
 
   const toggleAudio = () => {
-    if (isPlaying) {
-      stopAudio();
-    } else {
-      playAudio();
-    }
+    if (isPlaying) stopAudio();
+    else playAudio();
   };
+
+  useEffect(() => {
+    const finishedListener = SoundPlayer.addEventListener(
+      'FinishedPlaying',
+      () => setIsPlaying(false),
+    );
+    return () => finishedListener.remove();
+  }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState.match(/inactive|background/)) stopAudio();
+    });
+    return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
+    if (source !== 'ai') playAudio();
+    return () => stopAudio();
+  }, [language]);
 
   const handleDelete = () => {
     Alert.alert(
@@ -89,55 +110,16 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
     );
   };
 
-  useEffect(() => {
-    const finishedListener = SoundPlayer.addEventListener(
-      'FinishedPlaying',
-      () => {
-        setIsPlaying(false);
-      },
-    );
-
-    return () => {
-      finishedListener.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState.match(/inactive|background/)) {
-        stopAudio();
-      }
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    playAudio();
-
-    return () => {
-      stopAudio();
-    };
-  }, []);
-
-  useEffect(() => {
-    stopAudio();
-    playAudio();
-  }, [language]);
-
   if (!emergency) {
     return (
       <View style={styles.container}>
-        <Text style={styles.error}>Emergency not found</Text>
+        <ActivityIndicator size="large" color="red" style={{ marginTop: 50 }} />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      {/* Top Bar */}
       <View style={styles.topBar}>
         <TouchableOpacity
           onPress={() => {
@@ -150,7 +132,14 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
 
         <Text style={styles.title}>
           {emergency.title}
-          {source === 'ai' ? ' (AI)' : ''}
+          {source === 'ai' ? (
+            <Text style={{ fontWeight: 800 }}>
+              <Text style={{ color: '#777' }}>&nbsp; ● </Text>
+              <Text style={{ color: '#777' }}>AI</Text>
+            </Text>
+          ) : (
+            ''
+          )}
         </Text>
 
         <Call112Button />
@@ -185,7 +174,7 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
 
           {source === 'ai' && (
             <TouchableOpacity
-              style={[styles.hospitalButton, styles.deleteButton]}
+              style={styles.hospitalButton}
               onPress={handleDelete}
             >
               <Icon name="delete" size={20} color="#ff4d4d" />
@@ -194,7 +183,6 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
           )}
         </View>
 
-        {/* Steps */}
         {emergency.steps.map((step, index) => (
           <View key={index} style={styles.stepItem}>
             <View style={styles.stepNumber}>
@@ -204,18 +192,20 @@ const EmergencyFlowScreen = ({ route, navigation }) => {
           </View>
         ))}
 
-        <View style={styles.alertBox}>
-          <View style={styles.alertHeader}>
-            <Icon name="warning-amber" size={22} color="#ff4d4d" />
-            <Text style={styles.alertTitle}>Emergency Warning</Text>
-          </View>
+        {emergency.red_flags && emergency.red_flags.length > 0 && (
+          <View style={styles.alertBox}>
+            <View style={styles.alertHeader}>
+              <Icon name="warning-amber" size={22} color="#ff4d4d" />
+              <Text style={styles.alertTitle}>Emergency Warning</Text>
+            </View>
 
-          {emergency.red_flags.map((flag, index) => (
-            <Text key={index} style={styles.alertText}>
-              • {flag}
-            </Text>
-          ))}
-        </View>
+            {emergency.red_flags.map((flag, index) => (
+              <Text key={index} style={styles.alertText}>
+                • {flag}
+              </Text>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -337,13 +327,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     marginTop: 50,
-  },
-
-  iconHitSlop: {
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 
   header: {
